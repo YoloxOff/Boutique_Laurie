@@ -101,6 +101,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               >
                 Journal d&apos;activité
               </Link>
+              <Link
+                href="/admin/sauvegardes"
+                className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
+              >
+                Sauvegardes
+              </Link>
             </>
           )}
           <Link href="/" className="mt-4 rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground">
