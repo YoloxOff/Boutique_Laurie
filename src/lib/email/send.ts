@@ -36,3 +36,16 @@ export async function sendContactNotificationEmail(name: string, email: string, 
     html: `<p>${message}</p><p>Répondre à : ${email}</p>`,
   });
 }
+
+export async function sendContactReplyEmail(to: string, replyMessage: string) {
+  if (!resend) {
+    console.log(`[email:mock] réponse envoyée (simulée) à ${to}`);
+    return;
+  }
+  await resend.emails.send({
+    from: env.EMAIL_FROM ?? "Laurie Coiffure <contact@laurie-coiffure.fr>",
+    to,
+    subject: "Réponse à votre message — Laurie Coiffure",
+    html: `<p>${replyMessage.replace(/\n/g, "<br/>")}</p>`,
+  });
+}

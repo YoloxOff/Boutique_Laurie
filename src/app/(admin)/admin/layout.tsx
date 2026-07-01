@@ -13,6 +13,7 @@ const NAV: { href: string; label: string; permission?: PermissionKey }[] = [
   { href: "/admin/codes-promo", label: "Codes promo", permission: "promotions" },
   { href: "/admin/avis", label: "Avis", permission: "reviews" },
   { href: "/admin/newsletter", label: "Newsletter", permission: "newsletter" },
+  { href: "/admin/messages", label: "Messages", permission: "messages" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

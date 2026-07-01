@@ -3,6 +3,9 @@
 import { headers } from "next/headers";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { verifyRecaptcha } from "@/lib/recaptcha";
+import { sendContactNotificationEmail } from "@/lib/email/send";
+import { db, isDatabaseConfigured } from "@/db";
+import { contactMessages } from "@/db/schema";
 
 export type ContactFormState = {
   success: boolean;
@@ -37,8 +40,10 @@ export async function submitContactForm(
     return { success: false, message: "Vérification anti-spam échouée, merci de réessayer." };
   }
 
-  // En mode démo (RESEND_API_KEY absent), le message est simplement journalisé.
-  console.log("[contact:mock]", { name, email, message });
+  if (isDatabaseConfigured) {
+    await db.insert(contactMessages).values({ name, email, message });
+  }
+  await sendContactNotificationEmail(name, email, message);
 
   return { success: true, message: "Votre message a bien été envoyé, nous vous répondrons rapidement." };
 }
