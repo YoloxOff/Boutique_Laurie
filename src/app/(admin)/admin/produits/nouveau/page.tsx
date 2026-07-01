@@ -1,0 +1,21 @@
+import type { Metadata } from "next";
+import { ProductForm } from "@/components/forms/product-form";
+import { isDatabaseConfigured } from "@/db";
+
+export const metadata: Metadata = { title: "Admin — Nouveau produit" };
+
+export default function NouveauProduitPage() {
+  return (
+    <div>
+      <h1 className="font-heading text-2xl">Ajouter un produit</h1>
+      {!isDatabaseConfigured && (
+        <p className="mt-2 text-sm text-muted-foreground">
+          Mode démo : configurez Neon (DATABASE_URL) pour créer réellement des produits.
+        </p>
+      )}
+      <div className="mt-6">
+        <ProductForm />
+      </div>
+    </div>
+  );
+}
