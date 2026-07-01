@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AtSign, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
@@ -39,8 +40,8 @@ export async function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
-            <Link href="/" className="font-heading text-2xl tracking-wide">
-              Laurie <span className="italic text-[#c39c51]">Coiffure</span>
+            <Link href="/" aria-label="Laurie Coiffure — Accueil">
+              <Image src="/laurie/logo.png" alt="Laurie Coiffure" width={395} height={351} className="h-16 w-auto" />
             </Link>
             <p className="mt-4 max-w-sm text-sm text-stone-600">
               Coiffure à domicile à Toulouse nord et alentours. Diplômée du Brevet Professionnel,

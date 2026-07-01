@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
 import { BoutonRdv } from "./bouton-rdv";
@@ -24,8 +25,8 @@ export async function Header() {
           <MobileNav links={NAV_LINKS} />
         </div>
 
-        <Link href="/" className="font-heading text-2xl tracking-wide">
-          Laurie <span className="italic text-[#c39c51]">Coiffure</span>
+        <Link href="/" className="flex items-center" aria-label="Laurie Coiffure — Accueil">
+          <Image src="/laurie/logo.png" alt="Laurie Coiffure" width={395} height={351} priority className="h-16 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
