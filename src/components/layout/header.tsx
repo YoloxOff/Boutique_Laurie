@@ -6,25 +6,26 @@ import { Button } from "@/components/ui/button";
 import { getCartItemCount } from "@/lib/cart";
 
 const NAV_LINKS = [
-  { href: "/le-salon", label: "Le Salon" },
-  { href: "/prestations", label: "Prestations" },
+  { href: "/#home", label: "Accueil" },
+  { href: "/#pricing", label: "Tarifs" },
+  { href: "/#marriage", label: "Mariage" },
+  { href: "/#products", label: "Réalisations" },
   { href: "/boutique", label: "Boutique" },
-  { href: "/galerie", label: "Galerie" },
-  { href: "/contact", label: "Contact" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export async function Header() {
   const cartCount = await getCartItemCount();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
+    <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 lg:hidden">
           <MobileNav links={NAV_LINKS} />
         </div>
 
         <Link href="/" className="font-heading text-2xl tracking-wide">
-          Laurie <span className="italic text-accent-foreground/80">Coiffure</span>
+          Laurie <span className="italic text-[#c39c51]">Coiffure</span>
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
@@ -32,7 +33,7 @@ export async function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+              className="text-sm font-medium text-gray-700 transition-colors hover:text-[#c39c51]"
             >
               {link.label}
             </Link>
@@ -67,7 +68,7 @@ export async function Header() {
           >
             <ShoppingBag className="size-5" />
             {cartCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">
+              <span className="absolute -right-0.5 -top-0.5 flex size-4 items-center justify-center rounded-full bg-[#c39c51] text-[10px] font-semibold text-white">
                 {cartCount}
               </span>
             )}

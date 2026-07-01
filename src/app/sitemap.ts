@@ -1,16 +1,11 @@
 import type { MetadataRoute } from "next";
 import { env } from "@/env";
 import { getAllProducts } from "@/lib/data/products";
-import { getAllServices } from "@/lib/content/services";
 import { getAllCategories } from "@/lib/data/catalog-meta";
 
 const STATIC_ROUTES = [
   "",
-  "/le-salon",
-  "/prestations",
   "/boutique",
-  "/galerie",
-  "/contact",
   "/cgv",
   "/mentions-legales",
   "/confidentialite",
@@ -18,11 +13,7 @@ const STATIC_ROUTES = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [products, services, categories] = await Promise.all([
-    getAllProducts(),
-    getAllServices(),
-    getAllCategories(),
-  ]);
+  const [products, categories] = await Promise.all([getAllProducts(), getAllCategories()]);
 
   const staticEntries = STATIC_ROUTES.map((path) => ({
     url: `${env.NEXT_PUBLIC_SITE_URL}${path}`,
@@ -42,16 +33,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  const serviceEntries = services.map((s) => ({
-    url: `${env.NEXT_PUBLIC_SITE_URL}/prestations/${s.slug}`,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
-  return [
-    ...staticEntries,
-    ...productEntries,
-    ...categoryEntries,
-    ...serviceEntries,
-  ];
+  return [...staticEntries, ...productEntries, ...categoryEntries];
 }

@@ -306,16 +306,6 @@ export const mockServices: MockService[] = [
   },
 ];
 
-export type MockTeamMember = { name: string; role: string; bio: string; photo: string };
-export const mockTeam: MockTeamMember[] = [
-  {
-    name: "Laurie",
-    role: "Coiffeuse à domicile — Fondatrice",
-    bio: "Diplômée du Brevet Professionnel en 2012, visagiste et coloriste, passionnée par les coiffures de mariées depuis ses 16 ans.",
-    photo: "/laurie/voir-plus.jpg",
-  },
-];
-
 export type MockGalleryItem = { id: string; type: "photo" | "avant-apres" | "video"; category: string; image: string; imageAfter?: string; title: string };
 
 const marriageGalleryCount = 28;

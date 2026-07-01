@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/sections/hero";
-import { Presentation } from "@/components/sections/presentation";
-import { PrestationsHighlight } from "@/components/sections/prestations-highlight";
-import { NouveautesBoutique } from "@/components/sections/nouveautes-boutique";
-import { AvantApres } from "@/components/sections/avant-apres";
-import { ContactTeaser } from "@/components/sections/contact-teaser";
+import { HomeHero } from "@/components/sections/home-hero";
+import { PricingSection } from "@/components/sections/pricing-section";
+import { MarriageSection } from "@/components/sections/marriage-section";
+import { RealisationsSection } from "@/components/sections/realisations-section";
+import { ContactSection } from "@/components/sections/contact-section";
 import { jsonLdLocalBusiness } from "@/lib/seo/jsonld";
 
 export const metadata: Metadata = {
   description:
-    "Laurie Coiffure : coiffure à domicile à Toulouse nord et alentours, spécialiste couleur, balayage et coiffures de mariée. Prenez rendez-vous et découvrez notre boutique de produits professionnels en ligne.",
+    "Laurie Coiffure : coiffure à domicile à Toulouse nord et alentours, spécialiste couleur, balayage et coiffures de mariée.",
 };
 
 export default function HomePage() {
@@ -19,12 +18,11 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdLocalBusiness()) }}
       />
-      <Hero />
-      <Presentation />
-      <PrestationsHighlight />
-      <NouveautesBoutique />
-      <AvantApres />
-      <ContactTeaser />
+      <HomeHero />
+      <PricingSection />
+      <MarriageSection />
+      <RealisationsSection />
+      <ContactSection />
     </>
   );
 }
