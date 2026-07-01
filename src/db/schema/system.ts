@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, jsonb, integer } from "drizzle-orm/pg-core";
 import { users } from "./auth";
 
 export const activityLog = pgTable("activity_log", {
@@ -48,4 +48,21 @@ export const legalPagesRow = pgTable("legal_pages", {
   title: text("title").notNull(),
   content: text("content").notNull().default(""),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const media = pgTable("media", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  url: text("url").notNull(),
+  pathname: text("pathname").notNull(),
+  name: text("name").notNull(),
+  folder: text("folder").notNull().default(""),
+  alt: text("alt").notNull().default(""),
+  caption: text("caption").notNull().default(""),
+  width: integer("width").notNull(),
+  height: integer("height").notNull(),
+  sizeBytes: integer("size_bytes").notNull(),
+  uploadedBy: text("uploaded_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
