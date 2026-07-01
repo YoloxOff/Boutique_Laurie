@@ -26,11 +26,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
   title: {
-    default: `${env.NEXT_PUBLIC_SITE_NAME} — Salon expert couleur, balayage et soins`,
+    default: env.NEXT_PUBLIC_SITE_NAME,
     template: `%s — ${env.NEXT_PUBLIC_SITE_NAME}`,
   },
   description:
-    "Votre salon expert couleur, balayage et soins capillaires. Réservez votre rendez-vous et découvrez notre boutique de produits professionnels.",
+    "Coiffure à domicile à Toulouse nord et alentours, spécialiste couleur, balayage et coiffures de mariée. Réservez votre rendez-vous et découvrez notre boutique de produits professionnels.",
   verification: env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { google: env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
     : undefined,
