@@ -4,9 +4,11 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { db, isDatabaseConfigured } from "@/db";
-import { users } from "@/db/schema";
+import { users, activityLog } from "@/db/schema";
 import { env } from "@/env";
 import { eq } from "drizzle-orm";
+
+const ADMIN_ROLES = new Set(["employee", "admin", "super_admin"]);
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: isDatabaseConfigured ? DrizzleAdapter(db) : undefined,
@@ -24,10 +26,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Mot de passe", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         const email = credentials?.email as string | undefined;
         const password = credentials?.password as string | undefined;
         if (!email || !password) return null;
+
+        const ip = request?.headers?.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
 
         if (!isDatabaseConfigured) {
           // Mode demo sans base de donnees : compte admin de test uniquement.
@@ -42,6 +46,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const valid = await bcrypt.compare(password, user.passwordHash);
         if (!valid) return null;
+
+        if (ADMIN_ROLES.has(user.role)) {
+          await db.insert(activityLog).values({
+            userId: user.id,
+            userEmail: user.email,
+            action: "auth.login",
+            ip,
+          });
+        }
 
         return {
           id: user.id,

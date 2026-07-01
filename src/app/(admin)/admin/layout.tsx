@@ -80,12 +80,20 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </Link>
           ))}
           {isSuperAdmin && (
-            <Link
-              href="/admin/utilisateurs"
-              className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
-            >
-              Utilisateurs
-            </Link>
+            <>
+              <Link
+                href="/admin/utilisateurs"
+                className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
+              >
+                Utilisateurs
+              </Link>
+              <Link
+                href="/admin/journal"
+                className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
+              >
+                Journal d&apos;activité
+              </Link>
+            </>
           )}
           <Link href="/" className="mt-4 rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground">
             Retour au site
