@@ -5,13 +5,8 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
   const session = req.auth;
 
-  if (pathname.startsWith("/admin")) {
-    if (!session?.user || session.user.role !== "admin") {
-      const url = new URL("/connexion", req.nextUrl.origin);
-      url.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(url);
-    }
-  }
+  // /admin gère sa propre page de connexion (voir AdminLayout) : pas de redirection ici,
+  // pour que l'accès admin reste entièrement séparé de /connexion (comptes clients).
 
   if (pathname.startsWith("/compte")) {
     if (!session?.user) {

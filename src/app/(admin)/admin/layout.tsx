@@ -1,8 +1,8 @@
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { signOutAction } from "@/lib/auth-signout-action";
 import { isDatabaseConfigured } from "@/db";
+import { LoginForm } from "@/components/forms/login-form";
 
 const NAV = [
   { href: "/admin", label: "Tableau de bord" },
@@ -15,11 +15,41 @@ const NAV = [
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Defense en profondeur : le middleware protege deja /admin, on revérifie ici
-  // (et dans chaque Server Action/route admin) pour ne jamais dependre uniquement du middleware.
+  // L'espace admin gère sa propre connexion, entièrement séparée de /connexion (comptes clients) :
+  // pas de redirection, on affiche le formulaire directement ici quand la session n'est pas admin.
   const session = await auth();
-  if (!session?.user || session.user.role !== "admin") {
-    redirect("/connexion?callbackUrl=/admin");
+
+  if (!session?.user) {
+    return (
+      <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl">Espace administrateur</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Connectez-vous pour accéder au back-office de Laurie Coiffure.
+        </p>
+        <div className="mt-8">
+          <LoginForm callbackUrl="/admin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (session.user.role !== "admin") {
+    return (
+      <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-24 text-center sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl">Accès refusé</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Ce compte ({session.user.email}) n&apos;a pas les droits administrateur.
+        </p>
+        <form action={signOutAction} className="mt-8">
+          <button
+            type="submit"
+            className="w-full rounded-md border border-border px-4 py-2.5 text-sm font-medium hover:bg-secondary"
+          >
+            Se déconnecter
+          </button>
+        </form>
+      </div>
+    );
   }
 
   return (
