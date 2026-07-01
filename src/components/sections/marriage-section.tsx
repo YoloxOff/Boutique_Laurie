@@ -39,7 +39,7 @@ export function MarriageSection() {
   const next = () => setIndex((i) => (i + 1) % SLIDES.length);
 
   return (
-    <section id="marriage" className="relative w-full bg-gradient-to-r from-stone-100 to-stone-200 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
+    <section id="marriage" className="relative w-full scroll-mt-20 bg-gradient-to-r from-stone-100 to-stone-200 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <h2 className="mb-10 text-3xl font-bold text-[#c39c51] sm:text-4xl lg:text-5xl">Mariage</h2>
 

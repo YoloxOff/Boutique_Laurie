@@ -4,6 +4,7 @@ import { PricingSection } from "@/components/sections/pricing-section";
 import { MarriageSection } from "@/components/sections/marriage-section";
 import { RealisationsSection } from "@/components/sections/realisations-section";
 import { ContactSection } from "@/components/sections/contact-section";
+import { SectionReveal } from "@/components/sections/section-reveal";
 import { jsonLdLocalBusiness } from "@/lib/seo/jsonld";
 
 export const metadata: Metadata = {
@@ -18,11 +19,21 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdLocalBusiness()) }}
       />
-      <HomeHero />
-      <PricingSection />
-      <MarriageSection />
-      <RealisationsSection />
-      <ContactSection />
+      <SectionReveal>
+        <HomeHero />
+      </SectionReveal>
+      <SectionReveal>
+        <PricingSection />
+      </SectionReveal>
+      <SectionReveal>
+        <MarriageSection />
+      </SectionReveal>
+      <SectionReveal>
+        <RealisationsSection />
+      </SectionReveal>
+      <SectionReveal>
+        <ContactSection />
+      </SectionReveal>
     </>
   );
 }

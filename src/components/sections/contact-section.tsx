@@ -8,7 +8,7 @@ export async function ContactSection() {
   const whatsappHref = `https://wa.me/${settings.phone.replace(/\s/g, "").replace(/^0/, "+33")}`;
 
   return (
-    <section id="contact" className="relative w-full bg-stone-50">
+    <section id="contact" className="relative w-full scroll-mt-20 bg-stone-50">
       <div className="px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
         <div className="mx-auto max-w-7xl">
           <h2 className="mb-6 text-3xl font-bold text-[#c39c51] sm:text-4xl lg:text-5xl">Contact</h2>

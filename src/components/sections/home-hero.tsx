@@ -17,7 +17,7 @@ export function HomeHero() {
   return (
     <section
       id="home"
-      className="relative w-full bg-gradient-to-b from-stone-50 via-stone-100 to-stone-200 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20"
+      className="relative w-full scroll-mt-20 bg-gradient-to-b from-stone-50 via-stone-100 to-stone-200 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20"
     >
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#c39c51] via-[#e6d5a3] to-[#c39c51]" />
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-2">

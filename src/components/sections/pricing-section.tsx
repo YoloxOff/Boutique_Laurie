@@ -5,7 +5,7 @@ export async function PricingSection() {
   const services = await getAllServices();
 
   return (
-    <section id="pricing" className="relative w-full bg-stone-50 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
+    <section id="pricing" className="relative w-full scroll-mt-20 bg-stone-50 px-4 py-12 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <h2 className="mb-10 text-3xl font-bold text-[#c39c51] sm:text-4xl lg:text-5xl">Prestation et Tarif</h2>
         <PricingTabsClient services={services} />
