@@ -4,17 +4,17 @@ import { db, isDatabaseConfigured } from "@/db";
 import { toCsv, csvResponse } from "@/lib/admin/csv";
 
 export async function GET() {
-  await requirePermission("newsletter");
+  await requirePermission("promotions");
 
   if (!isDatabaseConfigured) {
     return NextResponse.json({ message: "Neon non configuré" }, { status: 503 });
   }
 
-  const subscribers = await db.query.newsletterSubscribers.findMany();
+  const codes = await db.query.promoCodes.findMany();
   const csv = toCsv(
-    ["email", "inscrit_le", "actif"],
-    subscribers.map((s) => [s.email, s.consentAt.toISOString(), s.active])
+    ["code", "type", "valeur", "utilisations", "limite", "actif"],
+    codes.map((c) => [c.code, c.type, c.value, c.usageCount, c.usageLimit ?? "", c.active ? "oui" : "non"])
   );
 
-  return csvResponse("newsletter.csv", csv);
+  return csvResponse("codes-promo.csv", csv);
 }

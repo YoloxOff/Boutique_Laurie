@@ -1,9 +1,10 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requirePermission } from "@/lib/admin/permissions";
+import { logActivity } from "@/lib/admin/activity-log";
 import { db, isDatabaseConfigured } from "@/db";
 import { products, productVariants } from "@/db/schema";
 
@@ -68,4 +69,26 @@ export async function deleteProduct(productId: string) {
   await db.delete(products).where(eq(products.id, productId));
   revalidatePath("/admin/produits");
   redirect("/admin/produits");
+}
+
+export async function bulkSetProductStatus(status: "active" | "draft", formData: FormData) {
+  const session = await requirePermission("products");
+  if (!isDatabaseConfigured) return;
+  const ids = formData.getAll("ids").map(String);
+  if (ids.length === 0) return;
+
+  await db.update(products).set({ status }).where(inArray(products.id, ids));
+  await logActivity(session, `product.bulk_${status}`, `${ids.length} produit(s)`);
+  revalidatePath("/admin/produits");
+}
+
+export async function bulkDeleteProducts(formData: FormData) {
+  const session = await requirePermission("products");
+  if (!isDatabaseConfigured) return;
+  const ids = formData.getAll("ids").map(String);
+  if (ids.length === 0) return;
+
+  await db.delete(products).where(inArray(products.id, ids));
+  await logActivity(session, "product.bulk_delete", `${ids.length} produit(s)`);
+  revalidatePath("/admin/produits");
 }

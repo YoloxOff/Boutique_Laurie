@@ -4,17 +4,23 @@ import { db, isDatabaseConfigured } from "@/db";
 import { toCsv, csvResponse } from "@/lib/admin/csv";
 
 export async function GET() {
-  await requirePermission("newsletter");
+  await requirePermission("products");
 
   if (!isDatabaseConfigured) {
     return NextResponse.json({ message: "Neon non configuré" }, { status: 503 });
   }
 
-  const subscribers = await db.query.newsletterSubscribers.findMany();
+  const rows = await db.query.products.findMany({ with: { variants: true } });
   const csv = toCsv(
-    ["email", "inscrit_le", "actif"],
-    subscribers.map((s) => [s.email, s.consentAt.toISOString(), s.active])
+    ["nom", "sku", "prix", "stock_total", "statut"],
+    rows.map((p) => [
+      p.name,
+      p.sku,
+      p.basePrice,
+      p.variants.reduce((sum, v) => sum + v.stockQuantity, 0),
+      p.status,
+    ])
   );
 
-  return csvResponse("newsletter.csv", csv);
+  return csvResponse("produits.csv", csv);
 }
