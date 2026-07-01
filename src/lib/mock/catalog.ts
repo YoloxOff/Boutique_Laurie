@@ -49,6 +49,8 @@ export type MockProduct = {
   variants: MockVariant[];
   reviews: MockReview[];
   complementSlugs: string[];
+  seoTitle?: string | null;
+  seoDescription?: string | null;
 };
 
 export const mockBrands: MockBrand[] = [

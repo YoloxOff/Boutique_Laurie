@@ -6,11 +6,18 @@ import { RealisationsSection } from "@/components/sections/realisations-section"
 import { ContactSection } from "@/components/sections/contact-section";
 import { SectionReveal } from "@/components/sections/section-reveal";
 import { jsonLdLocalBusiness } from "@/lib/seo/jsonld";
+import { getSiteSettings } from "@/lib/content/site-settings";
 
-export const metadata: Metadata = {
-  description:
-    "Laurie Coiffure : coiffure à domicile à Toulouse nord et alentours, spécialiste couleur, balayage et coiffures de mariée.",
-};
+const DEFAULT_DESCRIPTION =
+  "Laurie Coiffure : coiffure à domicile à Toulouse nord et alentours, spécialiste couleur, balayage et coiffures de mariée.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  return {
+    title: settings.metaTitle || undefined,
+    description: settings.metaDescription || DEFAULT_DESCRIPTION,
+  };
+}
 
 export default function HomePage() {
   return (

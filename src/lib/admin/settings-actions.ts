@@ -49,6 +49,8 @@ export async function updateSiteSettings(
     shippingMethods,
     announcementBar: String(formData.get("announcementBar") ?? ""),
     hours: parseHours(hoursRaw),
+    metaTitle: String(formData.get("metaTitle") ?? ""),
+    metaDescription: String(formData.get("metaDescription") ?? ""),
     updatedAt: new Date(),
   };
 

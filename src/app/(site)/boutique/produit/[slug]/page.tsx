@@ -31,8 +31,8 @@ export async function generateMetadata({
   const product = await getProductBySlug(slug);
   if (!product) return {};
   return {
-    title: product.name,
-    description: product.shortDescription,
+    title: product.seoTitle || product.name,
+    description: product.seoDescription || product.shortDescription,
   };
 }
 

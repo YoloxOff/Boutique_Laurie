@@ -61,6 +61,18 @@ export function SiteSettingsForm({ settings }: { settings: SiteSettings }) {
         <Input id="shippingMethods" name="shippingMethods" placeholder="Colissimo, Mondial Relay" className="mt-1.5" />
       </div>
 
+      <div className="sm:col-span-2">
+        <h3 className="text-sm font-semibold text-muted-foreground">SEO — page d&apos;accueil</h3>
+      </div>
+      <div className="sm:col-span-2">
+        <Label htmlFor="metaTitle">Titre (balise meta title)</Label>
+        <Input id="metaTitle" name="metaTitle" defaultValue={settings.metaTitle} className="mt-1.5" />
+      </div>
+      <div className="sm:col-span-2">
+        <Label htmlFor="metaDescription">Description (balise meta description)</Label>
+        <Textarea id="metaDescription" name="metaDescription" rows={2} defaultValue={settings.metaDescription} className="mt-1.5" />
+      </div>
+
       {state.error && <p className="sm:col-span-2 text-sm text-destructive">{state.error}</p>}
       {state.success && <p className="sm:col-span-2 text-sm text-foreground">Paramètres enregistrés.</p>}
       <Button type="submit" disabled={isPending} className="sm:col-span-2">

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { Button } from "@/components/ui/button";
 import { StockInput } from "@/components/forms/stock-input";
+import { ProductEditForm } from "@/components/forms/product-edit-form";
 import { db, isDatabaseConfigured } from "@/db";
 import { products } from "@/db/schema";
 import { deleteProduct } from "@/lib/admin/products-actions";
@@ -61,6 +62,21 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
       <p className="mt-2 text-sm text-muted-foreground">
         SKU {product.sku} — {formatPrice(Number(product.basePrice))}
       </p>
+
+      <div className="mt-8 rounded-xl border border-border p-6">
+        <h2 className="font-heading text-lg">Informations &amp; SEO</h2>
+        <div className="mt-4">
+          <ProductEditForm
+            id={product.id}
+            name={product.name}
+            description={product.description}
+            basePrice={Number(product.basePrice)}
+            slug={product.slug}
+            seoTitle={product.seoTitle}
+            seoDescription={product.seoDescription}
+          />
+        </div>
+      </div>
 
       <div className="mt-8">
         <h2 className="font-heading text-lg">Variantes &amp; stock</h2>

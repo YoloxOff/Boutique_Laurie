@@ -38,6 +38,8 @@ export const siteSettingsRow = pgTable("site_settings", {
   shippingMethods: text("shipping_methods").array().notNull().default([]),
   announcementBar: text("announcement_bar"),
   hours: jsonb("hours").$type<{ day: string; hours: string }[]>().notNull().default([]),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 

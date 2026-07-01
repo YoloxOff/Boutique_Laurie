@@ -6,7 +6,11 @@ import { siteSettingsRow, legalPagesRow } from "@/db/schema";
 
 const QUERY = `*[_type == "siteSettings"][0]{ planityUrl, phone, email, address, hours, instagram, facebook, announcementBar }`;
 
-export type SiteSettings = typeof mockSiteSettings & { announcementBar?: string };
+export type SiteSettings = typeof mockSiteSettings & {
+  announcementBar?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+};
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   if (isDatabaseConfigured) {
@@ -21,6 +25,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
         instagram: row.instagram || mockSiteSettings.instagram,
         facebook: row.facebook || mockSiteSettings.facebook,
         announcementBar: row.announcementBar ?? undefined,
+        metaTitle: row.metaTitle ?? undefined,
+        metaDescription: row.metaDescription ?? undefined,
       };
     }
   }

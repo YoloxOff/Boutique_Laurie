@@ -113,6 +113,8 @@ export async function getProductBySlug(slug: string): Promise<MockProduct | null
         createdAt: r.createdAt.toISOString(),
       })),
       complementSlugs: [],
+      seoTitle: row.seoTitle,
+      seoDescription: row.seoDescription,
     };
   } catch {
     return getMockProductBySlug(slug);

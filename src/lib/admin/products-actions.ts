@@ -54,6 +54,41 @@ export async function createProduct(
   redirect(`/admin/produits/${product.id}`);
 }
 
+export async function updateProductDetails(
+  _prevState: ProductFormState,
+  formData: FormData
+): Promise<ProductFormState> {
+  const session = await requirePermission("products");
+  if (!isDatabaseConfigured) return { error: "Neon non configuré." };
+
+  const id = String(formData.get("id"));
+  const name = String(formData.get("name") ?? "").trim();
+  const description = String(formData.get("description") ?? "");
+  const basePrice = String(formData.get("basePrice") ?? "0");
+  const seoTitle = String(formData.get("seoTitle") ?? "").trim();
+  const seoDescription = String(formData.get("seoDescription") ?? "").trim();
+  const customSlug = String(formData.get("slug") ?? "").trim();
+
+  if (!name) return { error: "Le nom est obligatoire." };
+
+  await db
+    .update(products)
+    .set({
+      name,
+      description,
+      basePrice,
+      seoTitle: seoTitle || null,
+      seoDescription: seoDescription || null,
+      ...(customSlug ? { slug: slugify(customSlug) } : {}),
+    })
+    .where(eq(products.id, id));
+
+  await logActivity(session, "product.update", id);
+  revalidatePath("/admin/produits");
+  revalidatePath(`/admin/produits/${id}`);
+  return { error: null };
+}
+
 export async function updateStock(variantId: string, stockQuantity: number) {
   await requirePermission("products");
   if (!isDatabaseConfigured) return;
