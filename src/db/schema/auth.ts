@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
+  boolean,
   integer,
   pgEnum,
   pgTable,
@@ -31,6 +32,11 @@ export const users = pgTable("users", {
   // qui a toujours accès à tout ; affine les rôles "admin" et "employee".
   permissions: text("permissions").array().notNull().default([]),
   suspendedAt: timestamp("suspended_at"),
+  // Sécurité : 2FA (TOTP) et anti-brute-force (voir src/lib/auth.ts).
+  twoFactorSecret: text("two_factor_secret"),
+  twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
+  failedLoginAttempts: integer("failed_login_attempts").notNull().default(0),
+  lockedUntil: timestamp("locked_until"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

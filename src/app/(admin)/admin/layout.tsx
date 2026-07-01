@@ -80,6 +80,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               {item.label}
             </Link>
           ))}
+          <Link
+            href="/admin/securite"
+            className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
+          >
+            Sécurité
+          </Link>
           {isSuperAdmin && (
             <>
               <Link

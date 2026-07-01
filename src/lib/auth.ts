@@ -7,12 +7,22 @@ import { db, isDatabaseConfigured } from "@/db";
 import { users, activityLog } from "@/db/schema";
 import { env } from "@/env";
 import { eq } from "drizzle-orm";
+import { verifyTwoFactorToken } from "@/lib/admin/two-factor";
 
 const ADMIN_ROLES = new Set(["employee", "admin", "super_admin"]);
+const MAX_FAILED_ATTEMPTS = 5;
+const LOCKOUT_MINUTES = 15;
+// Auto-déconnexion après inactivité : la session expire si aucune requête ne la rafraîchit.
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 2; // 2h
+const SESSION_UPDATE_AGE_SECONDS = 60 * 15; // 15 min
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: isDatabaseConfigured ? DrizzleAdapter(db) : undefined,
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: SESSION_MAX_AGE_SECONDS,
+    updateAge: SESSION_UPDATE_AGE_SECONDS,
+  },
   secret: env.AUTH_SECRET ?? "dev-only-insecure-secret-change-me",
   pages: {
     signIn: "/connexion",
@@ -25,10 +35,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Mot de passe", type: "password" },
+        code: { label: "Code 2FA (si activé)", type: "text" },
       },
       async authorize(credentials, request) {
         const email = credentials?.email as string | undefined;
         const password = credentials?.password as string | undefined;
+        const code = (credentials?.code as string | undefined)?.trim();
         if (!email || !password) return null;
 
         const ip = request?.headers?.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
@@ -44,8 +56,32 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const user = await db.query.users.findFirst({ where: eq(users.email, email) });
         if (!user?.passwordHash || user.suspendedAt) return null;
 
+        if (user.lockedUntil && user.lockedUntil > new Date()) return null;
+
         const valid = await bcrypt.compare(password, user.passwordHash);
-        if (!valid) return null;
+        if (!valid) {
+          const attempts = user.failedLoginAttempts + 1;
+          const lockedUntil =
+            attempts >= MAX_FAILED_ATTEMPTS
+              ? new Date(Date.now() + LOCKOUT_MINUTES * 60_000)
+              : null;
+          await db
+            .update(users)
+            .set({ failedLoginAttempts: attempts, lockedUntil })
+            .where(eq(users.id, user.id));
+          return null;
+        }
+
+        if (user.twoFactorEnabled) {
+          if (!code || !user.twoFactorSecret || !verifyTwoFactorToken(user.twoFactorSecret, code)) {
+            return null;
+          }
+        }
+
+        await db
+          .update(users)
+          .set({ failedLoginAttempts: 0, lockedUntil: null })
+          .where(eq(users.id, user.id));
 
         if (ADMIN_ROLES.has(user.role)) {
           await db.insert(activityLog).values({
