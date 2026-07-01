@@ -40,28 +40,26 @@ export function RealisationsTabsClient({ gallery }: { gallery: MockGalleryItem[]
         ))}
       </div>
 
-      <div className="relative overflow-hidden">
-        <AnimatePresence mode="wait" custom={direction.current} initial={false}>
+      <div className="relative">
+        <AnimatePresence mode="popLayout" custom={direction.current} initial={false}>
           <motion.div
             key={active}
             custom={direction.current}
             initial={{ x: direction.current >= 0 ? 48 : -48, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: direction.current >= 0 ? -48 : 48, opacity: 0 }}
+            exit={{ x: direction.current >= 0 ? -48 : 48, opacity: 0, position: "absolute", top: 0, left: 0, right: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="columns-1 gap-4 sm:columns-2 md:columns-3 lg:columns-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {items.map((item) => (
-                <div key={item.id} className="mb-4 break-inside-avoid overflow-hidden rounded-2xl shadow-sm ring-1 ring-[#e6d5a3]">
-                  <div className="relative w-full">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      width={600}
-                      height={800}
-                      className="h-auto w-full object-cover"
-                    />
-                  </div>
+                <div key={item.id} className="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-sm ring-1 ring-[#e6d5a3]">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-cover"
+                  />
                 </div>
               ))}
             </div>
