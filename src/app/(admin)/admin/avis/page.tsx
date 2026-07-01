@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import { ReviewModerationActions } from "@/components/admin/review-moderation-actions";
 import { db, isDatabaseConfigured } from "@/db";
+import { assertPagePermission } from "@/lib/admin/permissions";
 
 export const metadata: Metadata = { title: "Admin — Avis" };
 
 export default async function AdminAvisPage() {
+  await assertPagePermission("reviews");
   if (!isDatabaseConfigured) {
     return (
       <div>

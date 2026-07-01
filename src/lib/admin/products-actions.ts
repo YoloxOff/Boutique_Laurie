@@ -3,7 +3,7 @@
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/admin/guard";
+import { requirePermission } from "@/lib/admin/permissions";
 import { db, isDatabaseConfigured } from "@/db";
 import { products, productVariants } from "@/db/schema";
 
@@ -22,7 +22,7 @@ export async function createProduct(
   _prevState: ProductFormState,
   formData: FormData
 ): Promise<ProductFormState> {
-  await requireAdmin();
+  await requirePermission("products");
 
   if (!isDatabaseConfigured) {
     return { error: "Mode démo : la gestion des produits nécessite Neon (DATABASE_URL)." };
@@ -54,7 +54,7 @@ export async function createProduct(
 }
 
 export async function updateStock(variantId: string, stockQuantity: number) {
-  await requireAdmin();
+  await requirePermission("products");
   if (!isDatabaseConfigured) return;
 
   await db.update(productVariants).set({ stockQuantity }).where(eq(productVariants.id, variantId));
@@ -62,7 +62,7 @@ export async function updateStock(variantId: string, stockQuantity: number) {
 }
 
 export async function deleteProduct(productId: string) {
-  await requireAdmin();
+  await requirePermission("products");
   if (!isDatabaseConfigured) return;
 
   await db.delete(products).where(eq(products.id, productId));

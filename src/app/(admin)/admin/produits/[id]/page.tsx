@@ -8,10 +8,12 @@ import { products } from "@/db/schema";
 import { deleteProduct } from "@/lib/admin/products-actions";
 import { getMockProductBySlug } from "@/lib/mock/catalog";
 import { formatPrice } from "@/lib/format";
+import { assertPagePermission } from "@/lib/admin/permissions";
 
 export const metadata: Metadata = { title: "Admin — Gérer le produit" };
 
 export default async function AdminProduitDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  await assertPagePermission("products");
   const { id } = await params;
 
   if (!isDatabaseConfigured) {

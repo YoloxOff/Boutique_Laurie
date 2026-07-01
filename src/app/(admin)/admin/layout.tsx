@@ -3,15 +3,16 @@ import { auth } from "@/lib/auth";
 import { signOutAction } from "@/lib/auth-signout-action";
 import { isDatabaseConfigured } from "@/db";
 import { LoginForm } from "@/components/forms/login-form";
+import { can, isAdminRole, type PermissionKey } from "@/lib/admin/permissions";
 
-const NAV = [
+const NAV: { href: string; label: string; permission?: PermissionKey }[] = [
   { href: "/admin", label: "Tableau de bord" },
-  { href: "/admin/produits", label: "Produits" },
-  { href: "/admin/commandes", label: "Commandes" },
-  { href: "/admin/clients", label: "Clients" },
-  { href: "/admin/codes-promo", label: "Codes promo" },
-  { href: "/admin/avis", label: "Avis" },
-  { href: "/admin/newsletter", label: "Newsletter" },
+  { href: "/admin/produits", label: "Produits", permission: "products" },
+  { href: "/admin/commandes", label: "Commandes", permission: "orders" },
+  { href: "/admin/clients", label: "Clients", permission: "customers" },
+  { href: "/admin/codes-promo", label: "Codes promo", permission: "promotions" },
+  { href: "/admin/avis", label: "Avis", permission: "reviews" },
+  { href: "/admin/newsletter", label: "Newsletter", permission: "newsletter" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -33,7 +34,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     );
   }
 
-  if (session.user.role !== "admin") {
+  if (!isAdminRole(session.user.role)) {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-24 text-center sm:px-6 lg:px-8">
         <h1 className="font-heading text-3xl">Accès refusé</h1>
@@ -52,6 +53,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     );
   }
 
+  const isSuperAdmin = session.user.role === "super_admin";
+  const visibleNav = NAV.filter((item) => !item.permission || can(session, item.permission));
+
   return (
     <div className="mx-auto flex min-h-screen max-w-7xl">
       <aside className="w-64 shrink-0 border-r border-border p-6">
@@ -65,7 +69,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </p>
         )}
         <nav className="mt-8 flex flex-col gap-1">
-          {NAV.map((item) => (
+          {visibleNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -74,6 +78,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               {item.label}
             </Link>
           ))}
+          {isSuperAdmin && (
+            <Link
+              href="/admin/utilisateurs"
+              className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
+            >
+              Utilisateurs
+            </Link>
+          )}
           <Link href="/" className="mt-4 rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground">
             Retour au site
           </Link>

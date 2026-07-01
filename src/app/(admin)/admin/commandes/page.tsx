@@ -10,10 +10,12 @@ import {
 import { OrderStatusSelect } from "@/components/admin/order-status-select";
 import { db, isDatabaseConfigured } from "@/db";
 import { formatDate, formatPrice } from "@/lib/format";
+import { assertPagePermission } from "@/lib/admin/permissions";
 
 export const metadata: Metadata = { title: "Admin — Commandes" };
 
 export default async function AdminCommandesPage() {
+  await assertPagePermission("orders");
   if (!isDatabaseConfigured) {
     return (
       <div>

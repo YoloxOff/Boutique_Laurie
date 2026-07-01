@@ -32,31 +32,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!isDatabaseConfigured) {
           // Mode demo sans base de donnees : compte admin de test uniquement.
           if (email === "admin@laurie-coiffure.fr" && password === "admin1234") {
-            return { id: "demo-admin", email, name: "Admin (démo)", role: "admin" };
+            return { id: "demo-admin", email, name: "Admin (démo)", role: "super_admin", permissions: [] };
           }
           return null;
         }
 
         const user = await db.query.users.findFirst({ where: eq(users.email, email) });
-        if (!user?.passwordHash) return null;
+        if (!user?.passwordHash || user.suspendedAt) return null;
 
         const valid = await bcrypt.compare(password, user.passwordHash);
         if (!valid) return null;
 
-        return { id: user.id, email: user.email, name: user.name, role: user.role };
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          permissions: user.permissions,
+        };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as { role?: string }).role ?? "customer";
+        const u = user as { role?: string; permissions?: string[] };
+        token.role = (u.role as typeof token.role) ?? "customer";
+        token.permissions = u.permissions ?? [];
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = (token.role as "customer" | "admin") ?? "customer";
+        session.user.role = (token.role as typeof session.user.role) ?? "customer";
+        session.user.permissions = (token.permissions as string[] | undefined) ?? [];
       }
       return session;
     },

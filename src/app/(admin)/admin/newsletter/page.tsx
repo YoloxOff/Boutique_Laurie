@@ -11,10 +11,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { db, isDatabaseConfigured } from "@/db";
 import { formatDate } from "@/lib/format";
+import { assertPagePermission } from "@/lib/admin/permissions";
 
 export const metadata: Metadata = { title: "Admin — Newsletter" };
 
 export default async function AdminNewsletterPage() {
+  await assertPagePermission("newsletter");
   if (!isDatabaseConfigured) {
     return (
       <div>

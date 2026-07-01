@@ -2,7 +2,7 @@
 
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/admin/guard";
+import { requirePermission } from "@/lib/admin/permissions";
 import { db, isDatabaseConfigured } from "@/db";
 import { orders, orderStatusEnum } from "@/db/schema";
 
@@ -10,7 +10,7 @@ export async function updateOrderStatus(
   orderId: string,
   status: (typeof orderStatusEnum.enumValues)[number]
 ) {
-  await requireAdmin();
+  await requirePermission("orders");
   if (!isDatabaseConfigured) return;
 
   await db.update(orders).set({ status }).where(eq(orders.id, orderId));

@@ -8,12 +8,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { eq } from "drizzle-orm";
 import { db, isDatabaseConfigured } from "@/db";
+import { users } from "@/db/schema";
 import { formatDate } from "@/lib/format";
+import { assertPagePermission } from "@/lib/admin/permissions";
 
 export const metadata: Metadata = { title: "Admin — Clients" };
 
 export default async function AdminClientsPage() {
+  await assertPagePermission("customers");
   if (!isDatabaseConfigured) {
     return (
       <div>
@@ -25,7 +29,10 @@ export default async function AdminClientsPage() {
     );
   }
 
-  const users = await db.query.users.findMany({ orderBy: (u, { desc }) => [desc(u.createdAt)] });
+  const clients = await db.query.users.findMany({
+    where: eq(users.role, "customer"),
+    orderBy: (u, { desc }) => [desc(u.createdAt)],
+  });
 
   return (
     <div>
@@ -35,19 +42,21 @@ export default async function AdminClientsPage() {
           <TableRow>
             <TableHead>Nom</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Rôle</TableHead>
+            <TableHead>Statut</TableHead>
             <TableHead>Inscrit le</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
+          {clients.map((client) => (
+            <TableRow key={client.id}>
+              <TableCell>{client.name}</TableCell>
+              <TableCell>{client.email}</TableCell>
               <TableCell>
-                <Badge variant={user.role === "admin" ? "default" : "secondary"}>{user.role}</Badge>
+                <Badge variant={client.suspendedAt ? "destructive" : "secondary"}>
+                  {client.suspendedAt ? "Bloqué" : "Actif"}
+                </Badge>
               </TableCell>
-              <TableCell>{formatDate(user.createdAt.toISOString())}</TableCell>
+              <TableCell>{formatDate(client.createdAt.toISOString())}</TableCell>
             </TableRow>
           ))}
         </TableBody>

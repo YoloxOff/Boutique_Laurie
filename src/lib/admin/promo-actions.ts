@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/admin/guard";
+import { requirePermission } from "@/lib/admin/permissions";
 import { db, isDatabaseConfigured } from "@/db";
 import { promoCodes } from "@/db/schema";
 
@@ -11,7 +11,7 @@ export async function createPromoCode(
   _prevState: PromoFormState,
   formData: FormData
 ): Promise<PromoFormState> {
-  await requireAdmin();
+  await requirePermission("promotions");
   if (!isDatabaseConfigured) {
     return { error: "Mode démo : configurez Neon (DATABASE_URL) pour créer des codes promo." };
   }

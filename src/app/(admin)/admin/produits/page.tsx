@@ -12,6 +12,7 @@ import {
 import { db, isDatabaseConfigured } from "@/db";
 import { mockProducts } from "@/lib/mock/catalog";
 import { formatPrice } from "@/lib/format";
+import { assertPagePermission } from "@/lib/admin/permissions";
 
 export const metadata: Metadata = { title: "Admin — Produits" };
 
@@ -36,6 +37,7 @@ async function getProductRows() {
 }
 
 export default async function AdminProduitsPage() {
+  await assertPagePermission("products");
   const products = await getProductRows();
 
   return (

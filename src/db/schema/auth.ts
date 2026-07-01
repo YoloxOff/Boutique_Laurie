@@ -9,7 +9,12 @@ import {
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
-export const userRoleEnum = pgEnum("user_role", ["customer", "admin"]);
+export const userRoleEnum = pgEnum("user_role", [
+  "customer",
+  "employee",
+  "admin",
+  "super_admin",
+]);
 
 export const users = pgTable("users", {
   id: text("id")
@@ -22,6 +27,10 @@ export const users = pgTable("users", {
   passwordHash: text("password_hash"),
   phone: text("phone"),
   role: userRoleEnum("role").notNull().default("customer"),
+  // Clés de permission (voir src/lib/admin/permissions.ts) : ignoré pour role="super_admin"
+  // qui a toujours accès à tout ; affine les rôles "admin" et "employee".
+  permissions: text("permissions").array().notNull().default([]),
+  suspendedAt: timestamp("suspended_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

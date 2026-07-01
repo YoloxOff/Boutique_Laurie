@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/admin/guard";
+import { requirePermission } from "@/lib/admin/permissions";
 import { db, isDatabaseConfigured } from "@/db";
 
 export async function GET() {
-  await requireAdmin();
+  await requirePermission("newsletter");
 
   if (!isDatabaseConfigured) {
     return NextResponse.json({ message: "Neon non configuré" }, { status: 503 });

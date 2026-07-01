@@ -19,7 +19,7 @@ async function seed() {
     .values({
       email: "admin@laurie-coiffure.fr",
       name: "Admin Laurie Coiffure",
-      role: "admin",
+      role: "super_admin",
       passwordHash,
     })
     .onConflictDoNothing({ target: users.email });

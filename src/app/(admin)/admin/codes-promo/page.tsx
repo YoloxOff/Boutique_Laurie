@@ -9,10 +9,12 @@ import {
 } from "@/components/ui/table";
 import { PromoCodeCreateForm } from "@/components/forms/promo-code-create-form";
 import { db, isDatabaseConfigured } from "@/db";
+import { assertPagePermission } from "@/lib/admin/permissions";
 
 export const metadata: Metadata = { title: "Admin — Codes promo" };
 
 export default async function AdminCodesPromoPage() {
+  await assertPagePermission("promotions");
   const codes = isDatabaseConfigured ? await db.query.promoCodes.findMany() : [];
 
   return (
