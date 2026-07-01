@@ -11,7 +11,7 @@ export const service = defineType({
       name: "category",
       title: "Catégorie",
       type: "string",
-      options: { list: ["femme", "homme", "enfant", "technique"] },
+      options: { list: ["femme", "homme", "enfant", "mariage"] },
     }),
     defineField({ name: "description", title: "Description", type: "text", rows: 4 }),
     defineField({ name: "benefits", title: "Bénéfices", type: "array", of: [{ type: "string" }] }),

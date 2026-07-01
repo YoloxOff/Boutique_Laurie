@@ -6,7 +6,7 @@ import { getSiteSettings } from "@/lib/content/site-settings";
 
 export const metadata: Metadata = {
   title: "Galerie",
-  description: "Photos du salon, réalisations avant/après et vidéos de Laurie Coiffure.",
+  description: "Réalisations mariage et coiffures du quotidien de Laurie Coiffure.",
 };
 
 export default async function GaleriePage() {

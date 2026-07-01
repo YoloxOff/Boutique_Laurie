@@ -1,10 +1,7 @@
-const img = (seed: string, w = 1200, h = 1500) =>
-  `https://picsum.photos/seed/${seed}/${w}/${h}`;
-
 export type MockService = {
   slug: string;
   name: string;
-  category: "femme" | "homme" | "enfant" | "technique";
+  category: "femme" | "homme" | "enfant" | "mariage";
   description: string;
   benefits: string[];
   duration: string;
@@ -13,239 +10,349 @@ export type MockService = {
   faq: { question: string; answer: string }[];
 };
 
+const femmeImage = "/laurie/forfaits-femmes-coupes-couleurs-meches-ombres-brushings.jpg";
+const hommeImage = "/laurie/coupes-hommes.jpg";
+const enfantImage = "/laurie/coupes-bebes-enfants-adolescents.jpg";
+const mariageImage = "/laurie/la-mariee.jpg";
+const demoisellesImage = "/laurie/demoiselles-dhonneurs-.jpg";
+
 export const mockServices: MockService[] = [
+  // --- Femme : forfaits (shampooing offert) ---
+  {
+    slug: "brushing",
+    name: "Brushing",
+    category: "femme",
+    description: "Brushing shampooing offert. Tarif cheveux courts : 20 €, cheveux longs : 25 €.",
+    benefits: ["Shampooing offert", "Cheveux courts : 20 €", "Cheveux longs : 25 €"],
+    duration: "Sur rendez-vous",
+    price: "20 € / 25 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "coupe-brushing",
+    name: "Coupe, brushing",
+    category: "femme",
+    description: "Coupe et brushing, shampooing offert. Tarif cheveux courts : 28 €, cheveux longs : 38 €.",
+    benefits: ["Shampooing offert", "Cheveux courts : 28 €", "Cheveux longs : 38 €"],
+    duration: "Sur rendez-vous",
+    price: "28 € / 38 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "couleur-coupe-brushing",
+    name: "Couleur, coupe, brushing",
+    category: "femme",
+    description: "Couleur racine, coupe et brushing, shampooing offert. Tarif cheveux courts : 55 €, cheveux longs : 65 €.",
+    benefits: ["Shampooing offert", "Cheveux courts : 55 €", "Cheveux longs : 65 €"],
+    duration: "Sur rendez-vous",
+    price: "55 € / 65 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "balayage-coupe-brushing",
+    name: "Balayage, coupe, brushing",
+    category: "femme",
+    description: "Balayage, coupe et brushing, shampooing offert. Tarif cheveux courts : 60 €, cheveux longs : 70 €.",
+    benefits: ["Shampooing offert", "Cheveux courts : 60 €", "Cheveux longs : 70 €"],
+    duration: "Sur rendez-vous",
+    price: "60 € / 70 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "meches-coupe-brushing",
+    name: "Mèches, coupe, brushing",
+    category: "femme",
+    description: "Mèches, coupe et brushing, shampooing offert. Tarif cheveux courts : 70 €, cheveux longs : 82 €.",
+    benefits: ["Shampooing offert", "Cheveux courts : 70 €", "Cheveux longs : 82 €"],
+    duration: "Sur rendez-vous",
+    price: "70 € / 82 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "lissage-bresilien",
+    name: "Lissage brésilien",
+    category: "femme",
+    description: "Lissage brésilien, racine 2 cm. Tarif selon longueur : 150 €, 190 € ou 250 €.",
+    benefits: ["Racine 2 cm", "Selon longueur des cheveux"],
+    duration: "Sur rendez-vous",
+    price: "150 € / 190 € / 250 €",
+    image: femmeImage,
+    faq: [],
+  },
+  // --- Femme : à la carte ---
+  {
+    slug: "shampooing",
+    name: "Shampooing",
+    category: "femme",
+    description: "Shampooing seul, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "4 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "soin",
+    name: "Soin",
+    category: "femme",
+    description: "Soin capillaire, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "7 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "coupe-femme",
+    name: "Coupe femme",
+    category: "femme",
+    description: "Coupe femme seule, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "20 €",
+    image: femmeImage,
+    faq: [],
+  },
+  {
+    slug: "couleur-racine",
+    name: "Couleur (racine)",
+    category: "femme",
+    description: "Couleur racine, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "30 €",
+    image: femmeImage,
+    faq: [],
+  },
   {
     slug: "balayage",
     name: "Balayage",
-    category: "technique",
-    description:
-      "Une technique de coloration à main levée qui sublime la chevelure d'un effet naturel ensoleillé, sans démarcation à la repousse.",
-    benefits: ["Effet naturel et lumineux", "Entretien espacé", "Personnalisé à votre carnation"],
-    duration: "2h30 - 3h",
-    price: "À partir de 95€",
-    image: img("balayage"),
-    faq: [
-      { question: "Le balayage abîme-t-il les cheveux ?", answer: "Nos formulières professionnelles et soins associés préservent la fibre capillaire." },
-      { question: "À quelle fréquence faut-il le refaire ?", answer: "Comptez 3 à 5 mois selon la repousse et l'effet recherché." },
-    ],
+    category: "femme",
+    description: "Balayage seul, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "35 €",
+    image: femmeImage,
+    faq: [],
   },
   {
-    slug: "coloration",
-    name: "Coloration",
-    category: "technique",
-    description: "Coloration sur-mesure pour une couvrance parfaite ou un changement de teinte réfléchi avec notre coloriste experte.",
-    benefits: ["Couvrance longue durée", "Diagnostic personnalisé", "Produits professionnels L'Oréal"],
-    duration: "1h30 - 2h",
-    price: "À partir de 65€",
-    image: img("coloration"),
-    faq: [{ question: "Puis-je apporter une photo d'inspiration ?", answer: "Bien sûr, c'est même recommandé pour affiner le diagnostic." }],
-  },
-  {
-    slug: "ombre-hair",
-    name: "Ombré Hair",
-    category: "technique",
-    description: "Un dégradé subtil du plus foncé aux pointes plus claires, pour une transition élégante et sur-mesure.",
-    benefits: ["Dégradé harmonieux", "Faible entretien racine", "Adapté aux cheveux longs et mi-longs"],
-    duration: "2h30",
-    price: "À partir de 110€",
-    image: img("ombrehair"),
+    slug: "ombre",
+    name: "Ombré",
+    category: "femme",
+    description: "Ombré hair, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "À partir de 50 €",
+    image: femmeImage,
     faq: [],
   },
   {
     slug: "meches",
     name: "Mèches",
-    category: "technique",
-    description: "Mèches traditionnelles au papier ou au bonnet pour un éclaircissement précis et localisé.",
-    benefits: ["Précision du geste", "Résultat lumineux", "Adaptable à toutes longueurs"],
-    duration: "2h",
-    price: "À partir de 85€",
-    image: img("meches"),
-    faq: [],
-  },
-  {
-    slug: "gloss",
-    name: "Gloss",
-    category: "technique",
-    description: "Soin colorant sans ammoniaque qui ravive l'éclat et la brillance entre deux colorations.",
-    benefits: ["Brillance immédiate", "Sans ammoniaque", "Ravive la couleur"],
-    duration: "45 min",
-    price: "À partir de 35€",
-    image: img("gloss"),
-    faq: [],
-  },
-  {
-    slug: "lissage",
-    name: "Lissage",
-    category: "technique",
-    description: "Lissage professionnel pour discipliner et lisser durablement les cheveux frisés ou indisciplinés.",
-    benefits: ["Résultat longue durée", "Cheveux disciplinés", "Gain de temps au quotidien"],
-    duration: "2h - 3h",
-    price: "À partir de 150€",
-    image: img("lissage"),
-    faq: [],
-  },
-  {
-    slug: "soins-profonds",
-    name: "Soins profonds",
-    category: "technique",
-    description: "Rituel de soin intensif Kérastase adapté à votre diagnostic capillaire pour une fibre réparée en profondeur.",
-    benefits: ["Diagnostic personnalisé", "Produits Kérastase", "Résultat visible dès la 1ère séance"],
-    duration: "30 - 45 min",
-    price: "À partir de 25€",
-    image: img("soinsprofonds"),
-    faq: [],
-  },
-  {
-    slug: "chignons",
-    name: "Chignons",
     category: "femme",
-    description: "Chignons sur-mesure pour vos événements, du plus romantique au plus glamour.",
-    benefits: ["Sur-mesure selon l'événement", "Tenue longue durée", "Essai possible en amont"],
-    duration: "45 min - 1h",
-    price: "À partir de 55€",
-    image: img("chignons"),
+    description: "Mèches seules, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "40 €",
+    image: femmeImage,
     faq: [],
   },
   {
-    slug: "mariage",
-    name: "Mariage",
+    slug: "patine",
+    name: "Patine",
     category: "femme",
-    description: "Prestations dédiées aux mariées : essai coiffure, jour J à domicile ou en salon, mise en beauté complète.",
-    benefits: ["Essai coiffure inclus", "Déplacement possible", "Accompagnement personnalisé"],
-    duration: "Sur devis",
-    price: "Sur devis",
-    image: img("mariage"),
+    description: "Patine, à la carte.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "12 €",
+    image: femmeImage,
     faq: [],
   },
   {
-    slug: "femme",
-    name: "Coupe Femme",
+    slug: "supplement-technique",
+    name: "Supplément technique",
     category: "femme",
-    description: "Coupe personnalisée selon la morphologie du visage et la nature du cheveu, coiffage inclus.",
-    benefits: ["Diagnostic personnalisé", "Coiffage inclus", "Conseils d'entretien"],
-    duration: "45 min - 1h",
-    price: "À partir de 45€",
-    image: img("femme"),
+    description: "Supplément technique selon la prestation.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "À partir de 10 €",
+    image: femmeImage,
     faq: [],
   },
   {
-    slug: "homme",
-    name: "Coupe Homme",
+    slug: "coiffure-de-soiree",
+    name: "Coiffure de soirée, attaché…",
+    category: "femme",
+    description: "Coiffure de soirée, chignon attaché ou coiffure événementielle.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "À partir de 40 €",
+    image: femmeImage,
+    faq: [],
+  },
+  // --- Homme ---
+  {
+    slug: "coupe-coiffage",
+    name: "Coupe coiffage",
     category: "homme",
-    description: "Coupe homme précise, dégradés et finitions à la tondeuse, taille de barbe sur demande.",
-    benefits: ["Précision des finitions", "Taille de barbe possible", "Conseils coiffants"],
-    duration: "30 - 45 min",
-    price: "À partir de 30€",
-    image: img("homme"),
+    description: "Coupe et coiffage homme.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "20 €",
+    image: hommeImage,
     faq: [],
   },
   {
-    slug: "enfant",
-    name: "Coupe Enfant",
+    slug: "coupe-coiffage-pause",
+    name: "Coupe coiffage pendant un temps de pause",
+    category: "homme",
+    description: "Coupe et coiffage homme, formule rapide pendant un temps de pause.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "15 €",
+    image: hommeImage,
+    faq: [],
+  },
+  {
+    slug: "taille-de-barbe",
+    name: "Taille de barbe",
+    category: "homme",
+    description: "Taille de barbe soignée.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "5 €",
+    image: hommeImage,
+    faq: [],
+  },
+  // --- Enfant ---
+  {
+    slug: "coupe-bebe",
+    name: "Coupe bébé jusqu'à 3 ans",
     category: "enfant",
-    description: "Coupe adaptée aux enfants dans un cadre bienveillant et rassurant.",
-    benefits: ["Cadre rassurant", "Rapide et adapté", "Tarif dédié"],
-    duration: "20 - 30 min",
-    price: "À partir de 20€",
-    image: img("enfant"),
+    description: "Coupe adaptée aux bébés jusqu'à 3 ans, dans un cadre rassurant.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "8 €",
+    image: enfantImage,
+    faq: [],
+  },
+  {
+    slug: "coupe-enfant",
+    name: "Coupe enfant fille/garçon jusqu'à 10 ans",
+    category: "enfant",
+    description: "Coupe enfant fille ou garçon jusqu'à 10 ans.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "15 €",
+    image: enfantImage,
+    faq: [],
+  },
+  {
+    slug: "coupe-adolescent-garcon",
+    name: "Coupe adolescent garçon",
+    category: "enfant",
+    description: "Coupe adaptée aux adolescents garçons.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "17 €",
+    image: enfantImage,
+    faq: [],
+  },
+  {
+    slug: "coupe-adolescent-fille",
+    name: "Coupe adolescent fille",
+    category: "enfant",
+    description: "Coupe adaptée aux adolescentes.",
+    benefits: [],
+    duration: "Sur rendez-vous",
+    price: "19 €",
+    image: enfantImage,
+    faq: [],
+  },
+  // --- Mariage ---
+  {
+    slug: "formule-mariee",
+    name: "Formule mariée",
+    category: "mariage",
+    description:
+      "Un premier rendez-vous pour faire connaissance et discuter de vos envies, un essai coiffure, puis le jour J la coiffure sublimée avec toutes les finitions nécessaires (brillance, tenue, élégance) et la pose du voile si besoin. Formule à partir de 180 €, en fonction du lieu de la prestation.",
+    benefits: [
+      "Premier rendez-vous inclus",
+      "Essai coiffure inclus (2ᵉ essai possible à partir de 30 €)",
+      "Pose du voile et technique d'accroche pour les témoins",
+      "Devis selon le lieu de la prestation",
+    ],
+    duration: "Sur rendez-vous",
+    price: "À partir de 180 €",
+    image: mariageImage,
+    faq: [],
+  },
+  {
+    slug: "invites-mariage",
+    name: "Demoiselles d'honneur et invités",
+    category: "mariage",
+    description:
+      "Coiffures harmonieuses et assorties au thème du mariage pour les témoins, demoiselles d'honneur et invités — y compris les enfants (coiffure de princesse ou de prince). Un devis global est automatiquement proposé selon le nombre de personnes à coiffer.",
+    benefits: ["Cheveux courts : 40 €", "Cheveux longs : 50 €", "Devis global sur demande"],
+    duration: "Sur rendez-vous",
+    price: "40 € / 50 €",
+    image: demoisellesImage,
     faq: [],
   },
 ];
 
 export type MockTeamMember = { name: string; role: string; bio: string; photo: string };
 export const mockTeam: MockTeamMember[] = [
-  { name: "Laurie", role: "Fondatrice & Coloriste experte", bio: "Plus de 15 ans d'expérience, spécialiste des techniques de coloration et du balayage sur-mesure.", photo: img("laurie", 800, 1000) },
-  { name: "Manon", role: "Styliste coupe & coiffage", bio: "Passionnée par les coupes tendances et les chignons événementiels.", photo: img("manon", 800, 1000) },
-  { name: "Julien", role: "Barbier & coupe homme", bio: "Expert des dégradés précis et des tailles de barbe sur-mesure.", photo: img("julien", 800, 1000) },
-];
-
-export type MockPost = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  coverImage: string;
-  publishedAt: string;
-  category: string;
-};
-export const mockPosts: MockPost[] = [
   {
-    slug: "comment-entretenir-son-balayage",
-    title: "Comment entretenir son balayage ?",
-    excerpt: "Nos conseils d'experte pour préserver l'éclat de votre balayage entre deux rendez-vous.",
-    content:
-      "Un balayage bien entretenu passe par un shampoing sans sulfate, un soin hebdomadaire nourrissant et une protection solaire pour préserver les reflets. Découvrez notre routine complète recommandée par Laurie.",
-    coverImage: img("blog-balayage"),
-    publishedAt: "2026-05-20",
-    category: "Coloration",
-  },
-  {
-    slug: "quel-shampoing-choisir",
-    title: "Quel shampoing choisir selon votre type de cheveux ?",
-    excerpt: "Cheveux colorés, secs, fins ou bouclés : notre guide pour choisir le shampoing adapté.",
-    content:
-      "Chaque type de cheveu a des besoins spécifiques. Nous vous guidons à travers notre sélection de shampoings professionnels L'Oréal et Kérastase pour trouver la formule adaptée à votre nature de cheveu.",
-    coverImage: img("blog-shampoing"),
-    publishedAt: "2026-06-02",
-    category: "Conseils",
-  },
-  {
-    slug: "proteger-cheveux-ete",
-    title: "Comment protéger ses cheveux en été ?",
-    excerpt: "Soleil, chlore, sel : les bons réflexes pour préserver la santé de vos cheveux cet été.",
-    content:
-      "L'été met à rude épreuve la fibre capillaire. Découvrez nos conseils et produits recommandés pour protéger vos cheveux du soleil, du sel et du chlore tout en gardant brillance et souplesse.",
-    coverImage: img("blog-ete"),
-    publishedAt: "2026-06-15",
-    category: "Conseils",
-  },
-  {
-    slug: "tendances-coiffure-2026",
-    title: "Les tendances coiffure de la saison",
-    excerpt: "Coupe, couleur, coiffage : ce qui fait tendance cette saison selon notre équipe.",
-    content:
-      "De l'ombré hair au carré structuré, découvrez les tendances repérées par notre équipe pour la saison, entre inspirations défilé et adaptation à la vie quotidienne.",
-    coverImage: img("blog-tendances"),
-    publishedAt: "2026-06-25",
-    category: "Tendances",
+    name: "Laurie",
+    role: "Coiffeuse à domicile — Fondatrice",
+    bio: "Diplômée du Brevet Professionnel en 2012, visagiste et coloriste, passionnée par les coiffures de mariées depuis ses 16 ans.",
+    photo: "/laurie/voir-plus.jpg",
   },
 ];
 
 export type MockGalleryItem = { id: string; type: "photo" | "avant-apres" | "video"; category: string; image: string; imageAfter?: string; title: string };
-export const mockGallery: MockGalleryItem[] = [
-  { id: "g1", type: "avant-apres", category: "Balayage", image: img("avant1"), imageAfter: img("apres1"), title: "Balayage miel sur cheveux mi-longs" },
-  { id: "g2", type: "avant-apres", category: "Coloration", image: img("avant2"), imageAfter: img("apres2"), title: "Couverture racine + reflets cuivrés" },
-  { id: "g3", type: "photo", category: "Salon", image: img("salon1"), title: "L'espace coloration" },
-  { id: "g4", type: "photo", category: "Salon", image: img("salon2"), title: "L'espace shampoing" },
-  { id: "g5", type: "avant-apres", category: "Lissage", image: img("avant3"), imageAfter: img("apres3"), title: "Lissage brésilien" },
-  { id: "g6", type: "photo", category: "Mariage", image: img("mariagegal"), title: "Chignon de mariée" },
-];
 
-export type MockTestimonial = { author: string; rating: number; comment: string; photo?: string };
-export const mockTestimonials: MockTestimonial[] = [
-  { author: "Émilie R.", rating: 5, comment: "Un accueil chaleureux et un résultat toujours à la hauteur de mes attentes. Je recommande vivement !" },
-  { author: "Nadia B.", rating: 5, comment: "Laurie a su comprendre exactement ce que je voulais pour mon balayage. Un vrai savoir-faire." },
-  { author: "Camille T.", rating: 4, comment: "Très bon salon, produits de qualité utilisés en boutique également." },
+const marriageGalleryCount = 28;
+const quotidienGalleryCount = 11;
+const marriageExtensions: Record<number, string> = { 8: "jpeg", 11: "jpeg", 12: "jpeg", 13: "jpeg", 15: "jpeg", 16: "jpeg", 17: "jpeg", 18: "jpeg", 19: "jpeg", 20: "jpeg", 21: "jpeg", 22: "jpeg", 25: "jpeg", 26: "jpeg", 27: "jpeg", 28: "png" };
+
+export const mockGallery: MockGalleryItem[] = [
+  ...Array.from({ length: marriageGalleryCount }, (_, i) => {
+    const n = i + 1;
+    const ext = marriageExtensions[n] ?? "jpg";
+    return {
+      id: `mariage-${n}`,
+      type: "photo" as const,
+      category: "Mariage",
+      image: `/laurie/marriage/marriage${n}.${ext}`,
+      title: `Réalisation ${n}`,
+    };
+  }),
+  ...Array.from({ length: quotidienGalleryCount }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `quotidien-${n}`,
+      type: "photo" as const,
+      category: "Quotidien",
+      image: `/laurie/quotidien/${n}.jpeg`,
+      title: `Réalisation ${n}`,
+    };
+  }),
 ];
 
 export const mockSiteSettings = {
-  planityUrl: "https://www.planity.com/",
-  phone: "01 23 45 67 89",
-  email: "contact@laurie-coiffure.fr",
-  address: "12 rue de la Beauté, 75000 Paris",
-  hours: [
-    { day: "Mardi - Vendredi", hours: "9h30 - 19h00" },
-    { day: "Samedi", hours: "9h00 - 18h00" },
-    { day: "Dimanche - Lundi", hours: "Fermé" },
-  ],
-  instagram: "https://instagram.com/lauriecoiffure",
-  facebook: "https://facebook.com/lauriecoiffure",
+  planityUrl: "http://fleeky.fr/laurie",
+  phone: "06 84 97 21 77",
+  email: "laurie.guiraud@orange.fr",
+  address: "Saint-Jean (Toulouse) — coiffure à domicile, secteur L'Union, Castelmaurou, Rouffiac-Tolosan, Beaupuy, Montrabé",
+  hours: [{ day: "Tous les jours", hours: "Sur rendez-vous" }],
+  instagram: "https://www.instagram.com/laurie.coiffeusedomicile",
+  facebook: "https://www.facebook.com/laurieCoiffeuse31",
 };
 
-export type MockBrandStory = { slug: string; name: string; story: string; heroImage: string };
-export const mockBrandStories: MockBrandStory[] = [
-  { slug: "loreal-professionnel", name: "L'Oréal Professionnel", story: "Depuis plus d'un siècle, L'Oréal Professionnel accompagne les plus grands salons avec une expertise inégalée en coloration et soin.", heroImage: img("brand-loreal") },
-  { slug: "kerastase", name: "Kérastase", story: "Née dans les laboratoires L'Oréal, Kérastase élève le soin capillaire au rang de rituel de luxe sur-mesure.", heroImage: img("brand-kerastase") },
-  { slug: "ghd", name: "GHD", story: "GHD révolutionne le coiffage professionnel avec des outils intelligents pensés pour préserver la santé du cheveu.", heroImage: img("brand-ghd") },
-  { slug: "redken", name: "Redken", story: "Fondée par un chimiste et une actrice, Redken allie science capillaire de pointe et résultats concrets.", heroImage: img("brand-redken") },
-];

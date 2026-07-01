@@ -18,15 +18,3 @@ export const galleryItem = defineType({
     defineField({ name: "videoUrl", title: "URL vidéo (si type=video)", type: "url" }),
   ],
 });
-
-export const testimonial = defineType({
-  name: "testimonial",
-  title: "Témoignage client",
-  type: "document",
-  fields: [
-    defineField({ name: "author", title: "Nom du client", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "rating", title: "Note (1-5)", type: "number", validation: (r) => r.min(1).max(5) }),
-    defineField({ name: "comment", title: "Commentaire", type: "text", rows: 3 }),
-    defineField({ name: "photo", title: "Photo (optionnel)", type: "image" }),
-  ],
-});

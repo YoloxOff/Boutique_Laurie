@@ -10,19 +10,14 @@ const COLONNES = [
     links: [
       { href: "/le-salon", label: "Le Salon" },
       { href: "/prestations", label: "Prestations" },
-      { href: "/marques", label: "Marques" },
-      { href: "/blog", label: "Blog & Conseils" },
       { href: "/galerie", label: "Galerie" },
-      { href: "/avis", label: "Avis clients" },
     ],
   },
   {
     title: "Boutique",
     links: [
       { href: "/boutique", label: "Tous les produits" },
-      { href: "/boutique/cartes-cadeaux", label: "Cartes cadeaux" },
       { href: "/compte/commandes", label: "Suivi de commande" },
-      { href: "/faq", label: "FAQ" },
     ],
   },
   {
@@ -48,8 +43,8 @@ export async function Footer() {
               Laurie <span className="italic">Coiffure</span>
             </Link>
             <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-              Votre salon expert couleur, balayage et soins capillaires. Une équipe passionnée,
-              des produits professionnels haut de gamme, une expérience sur-mesure.
+              Coiffure à domicile à Toulouse nord et alentours. Diplômée du Brevet Professionnel,
+              spécialiste des coiffures de mariée, à votre écoute pour révéler votre style.
             </p>
             <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">

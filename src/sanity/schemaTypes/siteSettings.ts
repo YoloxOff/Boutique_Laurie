@@ -5,7 +5,7 @@ export const siteSettings = defineType({
   title: "Réglages du site",
   type: "document",
   fields: [
-    defineField({ name: "planityUrl", title: "URL de réservation Planity", type: "url" }),
+    defineField({ name: "planityUrl", title: "URL de réservation (Fleeky)", type: "url" }),
     defineField({ name: "phone", title: "Téléphone", type: "string" }),
     defineField({ name: "email", title: "Email", type: "string" }),
     defineField({ name: "address", title: "Adresse", type: "string" }),

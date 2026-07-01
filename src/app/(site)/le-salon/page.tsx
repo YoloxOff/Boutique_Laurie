@@ -6,7 +6,7 @@ import { getSalonPage, getTeam } from "@/lib/content/team";
 export const metadata: Metadata = {
   title: "Le Salon",
   description:
-    "Découvrez l'histoire, les valeurs et l'équipe de Laurie Coiffure, salon expert couleur et soins capillaires.",
+    "Découvrez l'histoire et les valeurs de Laurie, coiffeuse à domicile diplômée du Brevet Professionnel, à Toulouse et sa périphérie.",
 };
 
 export default async function LeSalonPage() {
@@ -14,7 +14,7 @@ export default async function LeSalonPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <SectionHeading eyebrow="Depuis plus de 10 ans" title="L'histoire de Laurie Coiffure" />
+      <SectionHeading eyebrow="Diplômée du Brevet Professionnel depuis 2012" title="L'histoire de Laurie" />
       <p className="mx-auto mt-6 max-w-2xl text-center text-muted-foreground">{salon.history}</p>
 
       <div className="mt-16 grid gap-4 sm:grid-cols-3">
@@ -37,7 +37,7 @@ export default async function LeSalonPage() {
       </div>
 
       <div className="mt-20">
-        <SectionHeading eyebrow="Une équipe de spécialistes" title="Notre équipe" />
+        <SectionHeading eyebrow="Coiffeuse à domicile" title="Laurie" />
         <div className="mt-8 grid gap-8 sm:grid-cols-3">
           {team.map((member) => (
             <div key={member.name} className="text-center">

@@ -33,7 +33,7 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_SITE_URL: z.string().url().default("http://localhost:3000"),
     NEXT_PUBLIC_SITE_NAME: z.string().default("Laurie Coiffure"),
-    NEXT_PUBLIC_PLANITY_URL: z.string().url().default("https://www.planity.com/"),
+    NEXT_PUBLIC_PLANITY_URL: z.string().url().default("http://fleeky.fr/laurie"),
 
     NEXT_PUBLIC_SANITY_PROJECT_ID: z.string().optional(),
     NEXT_PUBLIC_SANITY_DATASET: z.string().default("production"),

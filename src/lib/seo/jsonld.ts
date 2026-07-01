@@ -74,25 +74,6 @@ export function jsonLdProduct(product: {
   };
 }
 
-export function jsonLdArticle(article: {
-  title: string;
-  description: string;
-  slug: string;
-  imageUrl?: string;
-  publishedAt: string;
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    description: article.description,
-    image: article.imageUrl,
-    datePublished: article.publishedAt,
-    mainEntityOfPage: `${siteUrl}/blog/${article.slug}`,
-    publisher: { "@type": "Organization", name: env.NEXT_PUBLIC_SITE_NAME },
-  };
-}
-
 export function jsonLdFaqPage(faq: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",

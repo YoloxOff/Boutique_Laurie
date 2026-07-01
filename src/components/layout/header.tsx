@@ -9,10 +9,7 @@ const NAV_LINKS = [
   { href: "/le-salon", label: "Le Salon" },
   { href: "/prestations", label: "Prestations" },
   { href: "/boutique", label: "Boutique" },
-  { href: "/marques", label: "Marques" },
-  { href: "/blog", label: "Blog" },
   { href: "/galerie", label: "Galerie" },
-  { href: "/avis", label: "Avis" },
   { href: "/contact", label: "Contact" },
 ];
 

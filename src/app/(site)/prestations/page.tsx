@@ -7,14 +7,14 @@ import { getAllServices } from "@/lib/content/services";
 export const metadata: Metadata = {
   title: "Prestations",
   description:
-    "Découvrez nos prestations : coupe femme, homme, enfant, balayage, coloration, ombré hair, mèches, gloss, lissage, soins profonds, chignons et mariage.",
+    "Découvrez les prestations de coiffure à domicile de Laurie : coupe, couleur, balayage, mèches, lissage brésilien pour femmes, hommes, enfants, et formules mariage.",
 };
 
-const GROUPES: { key: "femme" | "homme" | "enfant" | "technique"; label: string }[] = [
+const GROUPES: { key: "femme" | "homme" | "enfant" | "mariage"; label: string }[] = [
   { key: "femme", label: "Femme" },
   { key: "homme", label: "Homme" },
   { key: "enfant", label: "Enfant" },
-  { key: "technique", label: "Techniques & couleur" },
+  { key: "mariage", label: "Mariage" },
 ];
 
 export default async function PrestationsPage() {

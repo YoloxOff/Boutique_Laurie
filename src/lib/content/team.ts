@@ -19,12 +19,12 @@ export type SalonPageContent = {
 
 const mockSalonPage: SalonPageContent = {
   history:
-    "Fondé par Laurie il y a plus de 10 ans, le salon Laurie Coiffure est né d'une passion pour la coloration et le conseil personnalisé. Aujourd'hui, une équipe de spécialistes vous accueille dans un cadre pensé pour votre bien-être.",
-  values: ["Excellence technique", "Écoute et conseil personnalisé", "Produits professionnels haut de gamme", "Bien-être et convivialité"],
+    "Je m'appelle Laurie. Passionnée par la coiffure depuis mes 16 ans, je suis basée à Saint-Jean et je propose mes services de coiffure à domicile à Toulouse et dans sa périphérie. J'ai d'abord travaillé dans plusieurs grands salons de coiffure avant de me lancer dans la belle aventure de l'entrepreneuriat. Diplômée du Brevet Professionnel depuis 2012, je mets mon expertise à votre service pour vous conseiller et vous sublimer, tout en restant à l'écoute de vos envies.",
+  values: ["Écoute et conseil personnalisé", "Visagisme et colorimétrie", "Formation continue aux nouvelles tendances", "Service à domicile ponctuel et soigné"],
   photos: [
-    "https://picsum.photos/seed/salon-int1/1200/900",
-    "https://picsum.photos/seed/salon-int2/1200/900",
-    "https://picsum.photos/seed/salon-int3/1200/900",
+    "/laurie/la-mariee.jpg",
+    "/laurie/deplome.jpg",
+    "/laurie/demoiselles-dhonneurs-.jpg",
   ],
 };
 
