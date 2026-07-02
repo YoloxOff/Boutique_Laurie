@@ -97,6 +97,57 @@ export async function updateStock(variantId: string, stockQuantity: number) {
   revalidatePath("/admin/produits");
 }
 
+export async function addProductVariant(productId: string, formData: FormData) {
+  const session = await requirePermission("products");
+  if (!isDatabaseConfigured) return;
+
+  const label = String(formData.get("label") ?? "").trim();
+  const sku = String(formData.get("sku") ?? "").trim();
+  const stockQuantity = Number(formData.get("stockQuantity") ?? 0);
+  const priceOverride = String(formData.get("priceOverride") ?? "").trim();
+
+  if (!label || !sku) return;
+
+  await db.insert(productVariants).values({
+    productId,
+    label,
+    sku,
+    stockQuantity,
+    priceOverride: priceOverride || null,
+  });
+
+  await logActivity(session, "product.variant_add", `${productId} -> ${label}`);
+  revalidatePath(`/admin/produits/${productId}`);
+}
+
+export async function updateProductVariant(variantId: string, productId: string, formData: FormData) {
+  const session = await requirePermission("products");
+  if (!isDatabaseConfigured) return;
+
+  const label = String(formData.get("label") ?? "").trim();
+  const sku = String(formData.get("sku") ?? "").trim();
+  const priceOverride = String(formData.get("priceOverride") ?? "").trim();
+
+  if (!label || !sku) return;
+
+  await db
+    .update(productVariants)
+    .set({ label, sku, priceOverride: priceOverride || null })
+    .where(eq(productVariants.id, variantId));
+
+  await logActivity(session, "product.variant_update", variantId);
+  revalidatePath(`/admin/produits/${productId}`);
+}
+
+export async function deleteProductVariant(variantId: string, productId: string) {
+  const session = await requirePermission("products");
+  if (!isDatabaseConfigured) return;
+
+  await db.delete(productVariants).where(eq(productVariants.id, variantId));
+  await logActivity(session, "product.variant_delete", variantId);
+  revalidatePath(`/admin/produits/${productId}`);
+}
+
 export async function deleteProduct(productId: string) {
   await requirePermission("products");
   if (!isDatabaseConfigured) return;

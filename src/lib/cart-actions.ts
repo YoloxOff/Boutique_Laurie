@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { db, isDatabaseConfigured } from "@/db";
 import { cartItems, carts } from "@/db/schema";
 import { getProductBySlug } from "@/lib/data/products";
@@ -70,7 +70,11 @@ export async function addToCart(productSlug: string, variantId: string | null, q
   } else {
     const cartId = await getOrCreateDbCartId();
     const existing = await db.query.cartItems.findFirst({
-      where: eq(cartItems.cartId, cartId),
+      where: and(
+        eq(cartItems.cartId, cartId),
+        eq(cartItems.productId, product.id),
+        variantId ? eq(cartItems.variantId, variantId) : isNull(cartItems.variantId)
+      ),
     });
     if (existing) {
       await db.update(cartItems).set({ quantity: existing.quantity + quantity }).where(eq(cartItems.id, existing.id));
@@ -95,9 +99,33 @@ export async function updateCartItemQuantity(key: string, quantity: number) {
     const next =
       quantity <= 0 ? lines.filter((l) => l.key !== key) : lines.map((l) => (l.key === key ? { ...l, quantity } : l));
     await writeMockCart(next);
+  } else {
+    const store = await cookies();
+    const cartId = store.get(CART_ID_COOKIE)?.value;
+    if (cartId) {
+      const separatorIndex = key.lastIndexOf(":");
+      const productSlug = key.slice(0, separatorIndex);
+      const variantPart = key.slice(separatorIndex + 1);
+      const variantId = variantPart === "default" ? null : variantPart;
+      const product = await getProductBySlug(productSlug);
+      if (product) {
+        const existing = await db.query.cartItems.findFirst({
+          where: and(
+            eq(cartItems.cartId, cartId),
+            eq(cartItems.productId, product.id),
+            variantId ? eq(cartItems.variantId, variantId) : isNull(cartItems.variantId)
+          ),
+        });
+        if (existing) {
+          if (quantity <= 0) {
+            await db.delete(cartItems).where(eq(cartItems.id, existing.id));
+          } else {
+            await db.update(cartItems).set({ quantity }).where(eq(cartItems.id, existing.id));
+          }
+        }
+      }
+    }
   }
-  // Mode DB : necessite un identifiant de ligne dedie pour une mise a jour ciblee,
-  // laisse pour l'iteration suivante une fois le vrai flux DB teste de bout en bout.
   revalidatePath("/panier");
   revalidatePath("/", "layout");
 }
@@ -109,6 +137,12 @@ export async function removeFromCart(key: string) {
 export async function clearCart() {
   if (!isDatabaseConfigured) {
     await writeMockCart([]);
+  } else {
+    const store = await cookies();
+    const cartId = store.get(CART_ID_COOKIE)?.value;
+    if (cartId) {
+      await db.delete(cartItems).where(eq(cartItems.cartId, cartId));
+    }
   }
   revalidatePath("/panier");
   revalidatePath("/", "layout");

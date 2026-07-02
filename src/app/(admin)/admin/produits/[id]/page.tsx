@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { Button } from "@/components/ui/button";
-import { StockInput } from "@/components/forms/stock-input";
 import { ProductEditForm } from "@/components/forms/product-edit-form";
 import { ProductImageManager } from "@/components/forms/product-image-manager";
+import { ProductVariantManager } from "@/components/forms/product-variant-manager";
 import { db, isDatabaseConfigured } from "@/db";
 import { products } from "@/db/schema";
 import { deleteProduct } from "@/lib/admin/products-actions";
@@ -88,16 +88,8 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
 
       <div className="mt-8">
         <h2 className="font-heading text-lg">Variantes &amp; stock</h2>
-        <div className="mt-4 space-y-3">
-          {product.variants.map((variant) => (
-            <div key={variant.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border p-3">
-              <div>
-                <p className="font-medium">{variant.label}</p>
-                <p className="text-xs text-muted-foreground">{variant.sku}</p>
-              </div>
-              <StockInput variantId={variant.id} initialStock={variant.stockQuantity} />
-            </div>
-          ))}
+        <div className="mt-4">
+          <ProductVariantManager productId={product.id} variants={product.variants} />
         </div>
       </div>
     </div>
