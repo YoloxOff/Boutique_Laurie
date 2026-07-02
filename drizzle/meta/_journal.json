@@ -43,6 +43,13 @@
       "when": 1782932596416,
       "tag": "0005_smooth_leech",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1782986450046,
+      "tag": "0006_fast_vapor",
+      "breakpoints": true
     }
   ]
 }

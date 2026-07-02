@@ -16,16 +16,15 @@ export async function authenticate(
 ): Promise<AuthFormState> {
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
-  const code = String(formData.get("code") ?? "");
   const callbackUrl = String(formData.get("callbackUrl") ?? "/compte");
 
   try {
-    await signIn("credentials", { email, password, code, redirectTo: callbackUrl });
+    await signIn("credentials", { email, password, redirectTo: callbackUrl });
   } catch (error) {
     if (error instanceof AuthError) {
       return {
         error:
-          "Connexion refusée : identifiants incorrects, code de vérification invalide, ou compte temporairement bloqué après plusieurs tentatives.",
+          "Connexion refusée : identifiants incorrects, ou compte temporairement bloqué après plusieurs tentatives.",
       };
     }
     throw error;

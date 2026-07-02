@@ -69,14 +69,43 @@ export function PricingTabsClient({ services }: { services: MockService[] }) {
                 </div>
               </div>
               <div className="rounded-2xl border border-[#e6d5a3] bg-white p-6 shadow-sm sm:p-8">
-                <div className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-3 text-sm">
-                  {items.map((service) => (
-                    <div key={service.slug} className="contents">
-                      <div>{service.name}</div>
-                      <div className="text-right font-medium">{service.price}</div>
+                {cat.key === "femme" ? (
+                  <div className="grid grid-cols-[1.5fr_1fr_1fr] gap-x-3 gap-y-3 text-sm">
+                    <div />
+                    <div className="border-b border-[#e6d5a3] pb-2 text-center text-xs font-semibold uppercase tracking-wide text-stone-500">
+                      Cheveux courts
                     </div>
-                  ))}
-                </div>
+                    <div className="border-b border-[#e6d5a3] pb-2 text-center text-xs font-semibold uppercase tracking-wide text-stone-500">
+                      Cheveux longs
+                    </div>
+                    {items.map((service) => {
+                      const [courts, longs, ...rest] = service.price.split(" / ").map((p) => p.trim());
+                      const hasTwoPrices = longs !== undefined && rest.length === 0;
+                      return (
+                        <div key={service.slug} className="contents">
+                          <div className="self-center">{service.name}</div>
+                          {hasTwoPrices ? (
+                            <>
+                              <div className="text-center font-medium">{courts}</div>
+                              <div className="text-center font-medium">{longs}</div>
+                            </>
+                          ) : (
+                            <div className="col-span-2 text-center font-medium">{service.price}</div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-3 text-sm">
+                    {items.map((service) => (
+                      <div key={service.slug} className="contents">
+                        <div>{service.name}</div>
+                        <div className="text-right font-medium">{service.price}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <BoutonRdv className="mt-6" />
               </div>
             </div>

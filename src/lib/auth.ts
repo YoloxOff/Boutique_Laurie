@@ -7,7 +7,6 @@ import { db, isDatabaseConfigured } from "@/db";
 import { users, activityLog } from "@/db/schema";
 import { env } from "@/env";
 import { eq } from "drizzle-orm";
-import { verifyTwoFactorToken } from "@/lib/admin/two-factor";
 
 const ADMIN_ROLES = new Set(["employee", "admin", "super_admin"]);
 const MAX_FAILED_ATTEMPTS = 5;
@@ -35,12 +34,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Mot de passe", type: "password" },
-        code: { label: "Code 2FA (si activé)", type: "text" },
       },
       async authorize(credentials, request) {
         const email = credentials?.email as string | undefined;
         const password = credentials?.password as string | undefined;
-        const code = (credentials?.code as string | undefined)?.trim();
         if (!email || !password) return null;
 
         const ip = request?.headers?.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
@@ -70,12 +67,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             .set({ failedLoginAttempts: attempts, lockedUntil })
             .where(eq(users.id, user.id));
           return null;
-        }
-
-        if (user.twoFactorEnabled) {
-          if (!code || !user.twoFactorSecret || !verifyTwoFactorToken(user.twoFactorSecret, code)) {
-            return null;
-          }
         }
 
         await db

@@ -22,10 +22,6 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
         <Label htmlFor="login-password">Mot de passe</Label>
         <Input id="login-password" name="password" type="password" required className="mt-1.5" />
       </div>
-      <div>
-        <Label htmlFor="login-code">Code de vérification (si la double authentification est activée)</Label>
-        <Input id="login-code" name="code" inputMode="numeric" className="mt-1.5" />
-      </div>
       {state.error && <p className="text-sm text-destructive">{state.error}</p>}
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Connexion…" : "Se connecter"}
