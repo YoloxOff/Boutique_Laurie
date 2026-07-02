@@ -24,32 +24,32 @@ export async function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-3 items-center px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 lg:hidden">
           <MobileNav links={NAV_LINKS} />
         </div>
 
-        <Link href="/" className="flex items-center" aria-label="Laurie Coiffure — Accueil">
-          <Image src="/laurie/logo.png" alt="Laurie Coiffure" width={395} height={351} priority className="h-16 w-auto" />
-        </Link>
-
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-gray-700 transition-colors hover:text-[#c39c51]"
+              className="inline-block rounded-md px-2 py-1 text-sm font-medium text-gray-700 transition-colors hover:bg-[#c39c5112] hover:text-[#c39c51]"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <Link href="/#home" className="justify-self-center" aria-label="Laurie Coiffure — Accueil">
+          <Image src="/laurie/logo.png" alt="Laurie Coiffure" width={395} height={351} priority className="h-14 w-auto" />
+        </Link>
+
+        <div className="flex items-center justify-end gap-1 sm:gap-2">
           <Button
             variant="ghost"
             size="icon"
-            className="hidden sm:inline-flex"
+            className="hidden hover:bg-[#c39c5112] hover:text-[#c39c51] sm:inline-flex"
             render={<Link href="/boutique?recherche=" aria-label="Rechercher" />}
           >
             <Search className="size-5" />
@@ -57,18 +57,24 @@ export async function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="hidden sm:inline-flex"
+            className="hidden hover:bg-[#c39c5112] hover:text-[#c39c51] sm:inline-flex"
             render={<Link href="/compte/favoris" aria-label="Favoris" />}
           >
             <Heart className="size-5" />
           </Button>
-          <Button variant="ghost" size="icon" render={<Link href="/compte" aria-label="Mon compte" />}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-[#c39c5112] hover:text-[#c39c51]"
+            render={<Link href="/compte" aria-label="Mon compte" />}
+          >
             <User className="size-5" />
           </Button>
           {isAdmin && (
             <Button
               variant="ghost"
               size="icon"
+              className="hover:bg-[#c39c5112]"
               render={<Link href="/admin" aria-label="Super admin" />}
             >
               <ShieldCheck className="size-5 text-[#c39c51]" />
@@ -77,7 +83,7 @@ export async function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="relative"
+            className="relative hover:bg-[#c39c5112] hover:text-[#c39c51]"
             render={<Link href="/panier" aria-label="Panier" />}
           >
             <ShoppingBag className="size-5" />

@@ -92,6 +92,9 @@ export function PricingTabsClient({ services }: { services: MockService[] }) {
                           ) : (
                             <div className="col-span-2 text-center font-medium">{service.price}</div>
                           )}
+                          {service.slug === "lissage-bresilien" && (
+                            <div className="col-span-3 -mt-2 text-xs text-stone-400">*racine 2cm</div>
+                          )}
                         </div>
                       );
                     })}
