@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ChevronRight, Mail, Phone } from "lucide-react";
 import { BoutonRdv } from "./bouton-rdv";
 import { FacebookIcon, InstagramIcon, WhatsappIcon } from "@/components/icons/social-icons";
-import { NewsletterForm } from "@/components/forms/newsletter-form";
 import { getSiteSettings } from "@/lib/content/site-settings";
 import { toWhatsAppUrl } from "@/lib/utils";
 import { env } from "@/env";
@@ -107,13 +106,6 @@ export async function Footer() {
               >
                 Voir les tarifs
               </Link>
-            </div>
-            <div className="mt-8">
-              <h3 className="mb-2 text-lg font-semibold text-[#c39c51]">Newsletter</h3>
-              <p className="mb-3 text-sm text-stone-600">
-                -10% sur votre première commande en vous inscrivant.
-              </p>
-              <NewsletterForm />
             </div>
           </div>
         </div>

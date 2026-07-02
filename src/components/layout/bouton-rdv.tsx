@@ -17,7 +17,7 @@ export function BoutonRdv({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center justify-center rounded-md px-6 py-2.5 text-sm font-semibold tracking-wide shadow-sm transition-all",
+        "inline-flex items-center justify-center text-center rounded-md px-6 py-2.5 text-sm font-semibold tracking-wide shadow-sm transition-all",
         variant === "solid" && "bg-[#c39c51] text-white hover:bg-[#b8923a]",
         variant === "outline" &&
           "border border-[#e6d5a3] text-stone-800 hover:bg-[#c39c5112]",
