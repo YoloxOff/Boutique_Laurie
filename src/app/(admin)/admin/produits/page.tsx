@@ -72,9 +72,9 @@ export default async function AdminProduitsPage({
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="font-heading text-2xl">Produits ({allMatching.length})</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button variant="secondary" render={<Link href="/api/admin/produits/export" />}>
             Exporter en CSV
           </Button>
@@ -86,7 +86,7 @@ export default async function AdminProduitsPage({
         <SearchInput defaultValue={q} placeholder="Nom ou SKU…" action="/admin/produits" />
       </div>
 
-      <div className="mt-4 flex gap-2">
+      <div className="mt-4 flex flex-wrap gap-2">
         {[
           { value: "", label: "Tous" },
           { value: "active", label: "Publiés" },
@@ -99,7 +99,7 @@ export default async function AdminProduitsPage({
       </div>
 
       <form>
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           <Button size="sm" variant="outline" type="submit" formAction={bulkSetProductStatus.bind(null, "active")}>
             Publier la sélection
           </Button>

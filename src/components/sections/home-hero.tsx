@@ -3,13 +3,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { SimpleCarousel } from "./simple-carousel";
-
-const HERO_IMAGES = [
-  { src: "/laurie/la-mariee.jpg", alt: "Laurie Coiffure — coiffure de mariée" },
-  { src: "/laurie/voir-plus.jpg", alt: "Laurie Coiffure — coiffure de mariée en préparation" },
-  { src: "/laurie/forfaits-femmes-coupes-couleurs-meches-ombres-brushings.jpg", alt: "Laurie Coiffure — coupe et brushing" },
-];
 
 export function HomeHero() {
   const [open, setOpen] = useState(false);
@@ -50,7 +43,16 @@ export function HomeHero() {
           </div>
         </div>
 
-        <SimpleCarousel images={HERO_IMAGES} />
+        <div className="relative h-[280px] overflow-hidden rounded-2xl sm:h-[340px] lg:h-[400px]">
+          <Image
+            src="/laurie/hero.jpg"
+            alt="Laurie Coiffure"
+            fill
+            priority
+            sizes="(min-width: 1024px) 45vw, 100vw"
+            className="object-cover object-center"
+          />
+        </div>
       </div>
 
       {open && (

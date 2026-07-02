@@ -62,7 +62,7 @@ export default async function AdminAvisPage({
       </div>
 
       <form>
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           <Button size="sm" variant="outline" type="submit" formAction={bulkModerateReviews.bind(null, "approved")}>
             Approuver la sélection
           </Button>
@@ -78,14 +78,14 @@ export default async function AdminAvisPage({
           {reviews.map((review) => (
             <div key={review.id} className="flex gap-3 rounded-xl border border-border p-4">
               <input type="checkbox" name="ids" value={review.id} className="mt-1 size-4 shrink-0 rounded border-border" />
-              <div className="flex flex-1 items-center justify-between">
+              <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="font-medium">
                     {review.authorName} — {review.product?.name}
                   </p>
                   <p className="text-sm text-muted-foreground">{review.comment}</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <Badge variant={review.status === "approved" ? "default" : "secondary"}>{review.status}</Badge>
                   <ReviewModerationActions reviewId={review.id} />
                 </div>

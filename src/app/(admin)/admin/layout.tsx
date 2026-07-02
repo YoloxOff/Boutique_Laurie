@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { signOutAction } from "@/lib/auth-signout-action";
 import { isDatabaseConfigured } from "@/db";
 import { LoginForm } from "@/components/forms/login-form";
+import { AdminMobileNav } from "@/components/admin/mobile-nav";
 import { can, isAdminRole, type PermissionKey } from "@/lib/admin/permissions";
 
 const NAV: { href: string; label: string; permission?: PermissionKey }[] = [
@@ -58,10 +59,27 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   const isSuperAdmin = session.user.role === "super_admin";
   const visibleNav = NAV.filter((item) => !item.permission || can(session, item.permission));
+  const secondaryNav = [
+    { href: "/admin/securite", label: "Sécurité" },
+    ...(isSuperAdmin
+      ? [
+          { href: "/admin/utilisateurs", label: "Utilisateurs" },
+          { href: "/admin/journal", label: "Journal d'activité" },
+          { href: "/admin/sauvegardes", label: "Sauvegardes" },
+        ]
+      : []),
+  ];
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-7xl">
-      <aside className="w-64 shrink-0 border-r border-border p-6">
+    <div className="mx-auto flex min-h-screen max-w-7xl flex-col lg:flex-row">
+      <div className="flex items-center justify-between border-b border-border p-4 lg:hidden">
+        <Link href="/admin" className="font-heading text-xl">
+          Laurie <span className="italic">Admin</span>
+        </Link>
+        <AdminMobileNav mainNav={visibleNav} secondaryNav={secondaryNav} signOutAction={signOutAction} />
+      </div>
+
+      <aside className="hidden w-64 shrink-0 border-r border-border p-6 lg:block">
         <Link href="/admin" className="font-heading text-xl">
           Laurie <span className="italic">Admin</span>
         </Link>
@@ -81,34 +99,15 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               {item.label}
             </Link>
           ))}
-          <Link
-            href="/admin/securite"
-            className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
-          >
-            Sécurité
-          </Link>
-          {isSuperAdmin && (
-            <>
-              <Link
-                href="/admin/utilisateurs"
-                className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
-              >
-                Utilisateurs
-              </Link>
-              <Link
-                href="/admin/journal"
-                className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
-              >
-                Journal d&apos;activité
-              </Link>
-              <Link
-                href="/admin/sauvegardes"
-                className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
-              >
-                Sauvegardes
-              </Link>
-            </>
-          )}
+          {secondaryNav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground"
+            >
+              {item.label}
+            </Link>
+          ))}
           <Link href="/" className="mt-4 rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-foreground">
             Retour au site
           </Link>
@@ -122,7 +121,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </form>
         </nav>
       </aside>
-      <main className="flex-1 p-8">{children}</main>
+      <main className="flex-1 overflow-x-hidden p-4 sm:p-6 lg:p-8">{children}</main>
     </div>
   );
 }

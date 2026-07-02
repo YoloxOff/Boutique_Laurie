@@ -46,7 +46,7 @@ export default async function AdminMessagesPage({
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="font-heading text-2xl">Messages ({messages.length})</h1>
         <Button variant="secondary" render={<Link href="/api/admin/messages/export" />}>
           Exporter en CSV
@@ -67,7 +67,7 @@ export default async function AdminMessagesPage({
       </div>
 
       <form>
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           <Button size="sm" variant="outline" type="submit" formAction={bulkArchiveMessages}>
             Archiver la sélection
           </Button>
@@ -81,8 +81,8 @@ export default async function AdminMessagesPage({
             <div key={m.id} className="flex gap-3 rounded-xl border border-border p-4">
               <input type="checkbox" name="ids" value={m.id} className="mt-1 size-4 shrink-0 rounded border-border" />
               <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="font-medium break-all">
                     {m.name} — {m.email}
                   </p>
                   <div className="flex items-center gap-2">

@@ -50,7 +50,7 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="font-heading text-2xl">{product.name}</h1>
         <form action={deleteProduct.bind(null, product.id)}>
           <Button variant="destructive" type="submit">
@@ -82,7 +82,7 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
         <h2 className="font-heading text-lg">Variantes &amp; stock</h2>
         <div className="mt-4 space-y-3">
           {product.variants.map((variant) => (
-            <div key={variant.id} className="flex items-center justify-between rounded-lg border border-border p-3">
+            <div key={variant.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border p-3">
               <div>
                 <p className="font-medium">{variant.label}</p>
                 <p className="text-xs text-muted-foreground">{variant.sku}</p>

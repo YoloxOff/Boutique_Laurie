@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import type { MockGalleryItem } from "@/lib/mock/content";
 
 const CATEGORIES = ["Mariage", "Quotidien"] as const;
 
 export function RealisationsTabsClient({ gallery }: { gallery: MockGalleryItem[] }) {
   const [active, setActive] = useState<(typeof CATEGORIES)[number]>("Mariage");
+  const [selected, setSelected] = useState<MockGalleryItem | null>(null);
   const direction = useRef(0);
 
   const activeIndex = CATEGORIES.indexOf(active);
@@ -52,7 +54,13 @@ export function RealisationsTabsClient({ gallery }: { gallery: MockGalleryItem[]
           >
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {items.map((item) => (
-                <div key={item.id} className="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-sm ring-1 ring-[#e6d5a3]">
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setSelected(item)}
+                  aria-label={`Agrandir : ${item.title}`}
+                  className="relative aspect-[3/4] cursor-zoom-in overflow-hidden rounded-2xl shadow-sm ring-1 ring-[#e6d5a3] transition-transform hover:scale-[1.02]"
+                >
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -60,12 +68,23 @@ export function RealisationsTabsClient({ gallery }: { gallery: MockGalleryItem[]
                     sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                     className="object-cover"
                   />
-                </div>
+                </button>
               ))}
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
+
+      <Dialog open={selected !== null} onOpenChange={(open) => !open && setSelected(null)}>
+        <DialogContent showCloseButton className="max-w-[95vw] sm:max-w-3xl">
+          <DialogTitle className="sr-only">{selected?.title ?? "Réalisation"}</DialogTitle>
+          {selected && (
+            <div className="relative h-[70vh] w-full overflow-hidden rounded-xl bg-stone-100">
+              <Image src={selected.image} alt={selected.title} fill sizes="95vw" className="object-contain" />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

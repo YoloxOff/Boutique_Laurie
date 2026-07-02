@@ -159,8 +159,8 @@ export default async function AdminDashboardPage() {
           <h2 className="font-heading text-lg">Dernières commandes</h2>
           <ul className="mt-4 space-y-2 text-sm">
             {stats.latestOrders.map((o) => (
-              <li key={o.id} className="flex items-center justify-between border-b border-border/60 pb-2">
-                <span>
+              <li key={o.id} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-border/60 pb-2">
+                <span className="break-all">
                   {o.orderNumber} — {o.email}
                 </span>
                 <span className="flex items-center gap-2">
@@ -180,8 +180,8 @@ export default async function AdminDashboardPage() {
           <h2 className="font-heading text-lg">Derniers clients</h2>
           <ul className="mt-4 space-y-2 text-sm">
             {stats.latestCustomers.map((c) => (
-              <li key={c.id} className="flex items-center justify-between border-b border-border/60 pb-2">
-                <span>{c.name ?? c.email}</span>
+              <li key={c.id} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-border/60 pb-2">
+                <span className="break-all">{c.name ?? c.email}</span>
                 <span className="text-muted-foreground">{formatDate(c.createdAt.toISOString())}</span>
               </li>
             ))}
@@ -196,7 +196,7 @@ export default async function AdminDashboardPage() {
           <h2 className="font-heading text-lg">Produits les plus vendus</h2>
           <ul className="mt-4 space-y-2 text-sm">
             {stats.topProducts.map((p) => (
-              <li key={p.name} className="flex items-center justify-between border-b border-border/60 pb-2">
+              <li key={p.name} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-border/60 pb-2">
                 <span>{p.name}</span>
                 <span className="text-muted-foreground">{p.quantity} vendus</span>
               </li>

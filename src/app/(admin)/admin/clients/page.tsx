@@ -49,7 +49,7 @@ export default async function AdminClientsPage({
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="font-heading text-2xl">Clients ({clients.length})</h1>
         <Button variant="secondary" render={<Link href="/api/admin/clients/export" />}>
           Exporter (RGPD)
@@ -61,7 +61,7 @@ export default async function AdminClientsPage({
       </div>
 
       <form>
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           <Button size="sm" variant="outline" type="submit" formAction={bulkSetCustomerBlocked.bind(null, true)}>
             Bloquer la sélection
           </Button>

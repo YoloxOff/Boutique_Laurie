@@ -55,7 +55,7 @@ export default async function AdminNewsletterPage({
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="font-heading text-2xl">Newsletter ({allMatching.length})</h1>
         <Button variant="secondary" render={<Link href="/api/admin/newsletter/export" />}>
           Exporter en CSV
@@ -67,7 +67,7 @@ export default async function AdminNewsletterPage({
       </div>
 
       <form>
-        <div className="mt-4 flex gap-2">
+        <div className="mt-4 flex flex-wrap gap-2">
           <Button size="sm" variant="outline" type="submit" formAction={bulkUpdateNewsletterStatus.bind(null, true)}>
             Réactiver la sélection
           </Button>
