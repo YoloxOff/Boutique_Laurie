@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AtSign, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { FacebookIcon, InstagramIcon } from "@/components/icons/social-icons";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
 import { getSiteSettings } from "@/lib/content/site-settings";
 import { env } from "@/env";
@@ -61,12 +62,12 @@ export async function Footer() {
             <div className="mt-6 flex gap-3">
               {settings.instagram && (
                 <Link href={settings.instagram} target="_blank" aria-label="Instagram" className="rounded-full border border-[#e6d5a3] p-2 hover:bg-[#c39c5112]">
-                  <AtSign className="size-4" />
+                  <InstagramIcon className="size-4" />
                 </Link>
               )}
               {settings.facebook && (
                 <Link href={settings.facebook} target="_blank" aria-label="Facebook" className="rounded-full border border-[#e6d5a3] p-2 hover:bg-[#c39c5112]">
-                  <Globe className="size-4" />
+                  <FacebookIcon className="size-4" />
                 </Link>
               )}
             </div>

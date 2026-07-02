@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
+import { Heart, Menu, Search, ShieldCheck, ShoppingBag, User } from "lucide-react";
 import { BoutonRdv } from "./bouton-rdv";
 import { MobileNav } from "./mobile-nav";
 import { Button } from "@/components/ui/button";
 import { getCartItemCount } from "@/lib/cart";
+import { auth } from "@/lib/auth";
+import { isAdminRole } from "@/lib/admin/permissions";
 
 const NAV_LINKS = [
   { href: "/#home", label: "Accueil" },
@@ -17,6 +19,8 @@ const NAV_LINKS = [
 
 export async function Header() {
   const cartCount = await getCartItemCount();
+  const session = await auth();
+  const isAdmin = isAdminRole(session?.user?.role);
 
   return (
     <header className="sticky top-0 z-40 border-b border-gray-200 bg-white/80 backdrop-blur-md">
@@ -61,6 +65,15 @@ export async function Header() {
           <Button variant="ghost" size="icon" render={<Link href="/compte" aria-label="Mon compte" />}>
             <User className="size-5" />
           </Button>
+          {isAdmin && (
+            <Button
+              variant="ghost"
+              size="icon"
+              render={<Link href="/admin" aria-label="Super admin" />}
+            >
+              <ShieldCheck className="size-5 text-[#c39c51]" />
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"

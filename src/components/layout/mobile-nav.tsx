@@ -18,7 +18,7 @@ export function MobileNav({ links }: { links: { href: string; label: string }[] 
       </SheetTrigger>
       <SheetContent side="left" className="w-72">
         <SheetHeader>
-          <SheetTitle render={<Image src="/laurie/logo.png" alt="Laurie Coiffure" width={395} height={351} className="h-14 w-auto" />} />
+          <SheetTitle render={<Image src="/laurie/logo.png" alt="Laurie Coiffure" width={395} height={351} className="h-14 w-auto self-start" />} />
         </SheetHeader>
         <nav className="flex flex-col gap-1 px-4">
           {links.map((link) => (
