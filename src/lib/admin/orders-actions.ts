@@ -32,3 +32,25 @@ export async function bulkUpdateOrderStatus(
   await logActivity(session, "order.bulk_update_status", `${ids.length} commande(s) -> ${status}`);
   revalidatePath("/admin/commandes");
 }
+
+export async function deleteOrder(orderId: string) {
+  const session = await requirePermission("orders");
+  if (!isDatabaseConfigured) return;
+
+  await db.delete(orders).where(eq(orders.id, orderId));
+  await logActivity(session, "order.delete", orderId);
+  revalidatePath("/admin/commandes");
+  revalidatePath("/admin");
+}
+
+export async function bulkDeleteOrders(formData: FormData) {
+  const session = await requirePermission("orders");
+  if (!isDatabaseConfigured) return;
+  const ids = formData.getAll("ids").map(String);
+  if (ids.length === 0) return;
+
+  await db.delete(orders).where(inArray(orders.id, ids));
+  await logActivity(session, "order.bulk_delete", `${ids.length} commande(s)`);
+  revalidatePath("/admin/commandes");
+  revalidatePath("/admin");
+}

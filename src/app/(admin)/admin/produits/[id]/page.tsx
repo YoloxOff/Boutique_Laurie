@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { Button } from "@/components/ui/button";
 import { StockInput } from "@/components/forms/stock-input";
 import { ProductEditForm } from "@/components/forms/product-edit-form";
+import { ProductImageManager } from "@/components/forms/product-image-manager";
 import { db, isDatabaseConfigured } from "@/db";
 import { products } from "@/db/schema";
 import { deleteProduct } from "@/lib/admin/products-actions";
@@ -44,7 +45,7 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
 
   const product = await db.query.products.findFirst({
     where: eq(products.id, id),
-    with: { variants: true },
+    with: { variants: true, images: { orderBy: (i, { asc }) => [asc(i.position)] } },
   });
   if (!product) notFound();
 
@@ -75,6 +76,13 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
             seoTitle={product.seoTitle}
             seoDescription={product.seoDescription}
           />
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <h2 className="font-heading text-lg">Images</h2>
+        <div className="mt-4">
+          <ProductImageManager productId={product.id} images={product.images} />
         </div>
       </div>
 

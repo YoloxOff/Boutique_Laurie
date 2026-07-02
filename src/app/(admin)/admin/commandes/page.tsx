@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { OrderStatusSelect } from "@/components/admin/order-status-select";
+import { DeleteOrderButton } from "@/components/admin/delete-order-button";
+import { BulkDeleteOrdersButton } from "@/components/admin/bulk-delete-orders-button";
 import { SearchInput } from "@/components/admin/search-input";
 import { db, isDatabaseConfigured } from "@/db";
 import { orders, orderStatusEnum } from "@/db/schema";
@@ -95,6 +97,7 @@ export default async function AdminCommandesPage({
               Marquer sélection : {STATUSES.find((x) => x.value === s)?.label}
             </Button>
           ))}
+          <BulkDeleteOrdersButton />
         </div>
 
         <Table className="mt-4">
@@ -106,6 +109,7 @@ export default async function AdminCommandesPage({
               <TableHead>Date</TableHead>
               <TableHead>Total</TableHead>
               <TableHead>Statut</TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -121,11 +125,14 @@ export default async function AdminCommandesPage({
                 <TableCell>
                   <OrderStatusSelect orderId={order.id} status={order.status} />
                 </TableCell>
+                <TableCell>
+                  <DeleteOrderButton orderId={order.id} orderNumber={order.orderNumber} />
+                </TableCell>
               </TableRow>
             ))}
             {ordersList.length === 0 && (
               <TableRow>
-                <TableCell colSpan={6} className="text-center text-muted-foreground">
+                <TableCell colSpan={7} className="text-center text-muted-foreground">
                   Aucune commande trouvée.
                 </TableCell>
               </TableRow>
