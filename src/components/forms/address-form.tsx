@@ -8,14 +8,19 @@ import { addAddress, type AddressFormState } from "@/lib/addresses-actions";
 
 const initialState: AddressFormState = { error: null };
 
-export function AddressForm() {
+export function AddressForm({ callbackUrl }: { callbackUrl?: string }) {
   const [state, formAction, isPending] = useActionState(addAddress, initialState);
 
   return (
     <form action={formAction} className="grid gap-4 sm:grid-cols-2">
+      {callbackUrl && <input type="hidden" name="callbackUrl" value={callbackUrl} />}
       <div className="sm:col-span-2">
         <Label htmlFor="fullName">Nom complet</Label>
         <Input id="fullName" name="fullName" required className="mt-1.5" />
+      </div>
+      <div className="sm:col-span-2">
+        <Label htmlFor="phone">Téléphone</Label>
+        <Input id="phone" name="phone" type="tel" required className="mt-1.5" />
       </div>
       <div className="sm:col-span-2">
         <Label htmlFor="line1">Adresse</Label>

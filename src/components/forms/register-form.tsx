@@ -8,11 +8,12 @@ import { registerCustomer, type RegisterFormState } from "@/lib/auth-actions";
 
 const initialState: RegisterFormState = { error: null, success: false };
 
-export function RegisterForm() {
+export function RegisterForm({ callbackUrl }: { callbackUrl?: string }) {
   const [state, formAction, isPending] = useActionState(registerCustomer, initialState);
 
   return (
     <form action={formAction} className="space-y-4">
+      {callbackUrl && <input type="hidden" name="callbackUrl" value={callbackUrl} />}
       <div>
         <Label htmlFor="register-name">Nom</Label>
         <Input id="register-name" name="name" required className="mt-1.5" />

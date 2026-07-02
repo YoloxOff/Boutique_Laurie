@@ -48,8 +48,8 @@ function StripePaymentStep({ orderNumber }: { orderNumber: string }) {
   );
 }
 
-export function CheckoutForm({ total }: { total: number }) {
-  const [email, setEmail] = useState("");
+export function CheckoutForm({ total, userEmail }: { total: number; userEmail?: string }) {
+  const [email, setEmail] = useState(userEmail ?? "");
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();

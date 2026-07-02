@@ -1,6 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { getAddressesForCurrentUser } from "@/lib/addresses";
 import {
   getCart,
   getSelectedPromoCode,
@@ -14,14 +16,25 @@ import { generateInvoicePdf } from "@/lib/pdf/invoice";
 import { sendOrderConfirmationEmail } from "@/lib/email/send";
 
 export async function startCheckout(email: string) {
-  const [items, promoCode, shippingMethod] = await Promise.all([
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/connexion?callbackUrl=/paiement");
+  }
+
+  const [items, promoCode, shippingMethod, addresses] = await Promise.all([
     getCart(),
     getSelectedPromoCode(),
     getSelectedShippingMethod(),
+    getAddressesForCurrentUser(),
   ]);
 
   if (items.length === 0) {
     redirect("/panier");
+  }
+
+  const shippingAddress = addresses.find((a) => a.isDefault && a.phone) ?? addresses.find((a) => a.phone);
+  if (!shippingAddress) {
+    redirect("/compte/adresses?callbackUrl=/paiement");
   }
 
   const subtotal = items.reduce((sum, l) => sum + l.unitPrice * l.quantity, 0);
@@ -31,6 +44,8 @@ export async function startCheckout(email: string) {
 
   const order = await createPendingOrder({
     email,
+    userId: session.user.id,
+    shippingAddressId: shippingAddress.id,
     items,
     subtotal,
     discountAmount,

@@ -22,7 +22,10 @@ export default async function ConnexionPage({
       </div>
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Pas encore de compte ?{" "}
-        <Link href="/inscription" className="underline underline-offset-4">
+        <Link
+          href={callbackUrl ? `/inscription?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/inscription"}
+          className="underline underline-offset-4"
+        >
           Créer un compte
         </Link>
       </p>

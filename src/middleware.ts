@@ -8,7 +8,7 @@ export default auth((req) => {
   // /admin gère sa propre page de connexion (voir AdminLayout) : pas de redirection ici,
   // pour que l'accès admin reste entièrement séparé de /connexion (comptes clients).
 
-  if (pathname.startsWith("/compte")) {
+  if (pathname.startsWith("/compte") || pathname.startsWith("/paiement")) {
     if (!session?.user) {
       const url = new URL("/connexion", req.nextUrl.origin);
       url.searchParams.set("callbackUrl", pathname);
@@ -20,5 +20,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/admin/:path*", "/compte/:path*"],
+  matcher: ["/admin/:path*", "/compte/:path*", "/paiement/:path*"],
 };

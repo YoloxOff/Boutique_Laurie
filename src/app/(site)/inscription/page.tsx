@@ -4,7 +4,13 @@ import { RegisterForm } from "@/components/forms/register-form";
 
 export const metadata: Metadata = { title: "Créer un compte" };
 
-export default function InscriptionPage() {
+export default async function InscriptionPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>;
+}) {
+  const { callbackUrl } = await searchParams;
+
   return (
     <div className="mx-auto max-w-md px-4 py-24 sm:px-6 lg:px-8">
       <h1 className="font-heading text-3xl">Créer un compte</h1>
@@ -12,11 +18,14 @@ export default function InscriptionPage() {
         Créez votre compte pour suivre vos commandes, gérer vos adresses et retrouver vos favoris.
       </p>
       <div className="mt-8">
-        <RegisterForm />
+        <RegisterForm callbackUrl={callbackUrl} />
       </div>
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Déjà un compte ?{" "}
-        <Link href="/connexion" className="underline underline-offset-4">
+        <Link
+          href={callbackUrl ? `/connexion?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/connexion"}
+          className="underline underline-offset-4"
+        >
           Se connecter
         </Link>
       </p>

@@ -29,6 +29,8 @@ function generateOrderNumber() {
 
 export async function createPendingOrder(input: {
   email: string;
+  userId?: string;
+  shippingAddressId?: string;
   items: CartLine[];
   subtotal: number;
   discountAmount: number;
@@ -42,6 +44,9 @@ export async function createPendingOrder(input: {
     await db.insert(orders).values({
       orderNumber,
       email: input.email,
+      userId: input.userId,
+      shippingAddressId: input.shippingAddressId,
+      billingAddressId: input.shippingAddressId,
       status: "pending",
       subtotal: input.subtotal.toString(),
       discountAmount: input.discountAmount.toString(),

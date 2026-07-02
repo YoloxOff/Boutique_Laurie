@@ -42,6 +42,7 @@ export async function registerCustomer(
   const name = String(formData.get("name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
+  const callbackUrl = String(formData.get("callbackUrl") ?? "").trim();
 
   if (!name || !email || password.length < 8) {
     return {
@@ -66,5 +67,7 @@ export async function registerCustomer(
   const passwordHash = await bcrypt.hash(password, 10);
   await db.insert(users).values({ name, email, passwordHash, role: "customer" });
 
-  redirect("/connexion");
+  redirect(
+    callbackUrl.startsWith("/") ? `/connexion?callbackUrl=${encodeURIComponent(callbackUrl)}` : "/connexion"
+  );
 }

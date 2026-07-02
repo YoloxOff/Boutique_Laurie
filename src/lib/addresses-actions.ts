@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { db, isDatabaseConfigured } from "@/db";
@@ -19,17 +20,20 @@ export async function addAddress(
   if (!session?.user?.id) return { error: "Vous devez être connecté." };
 
   const fullName = String(formData.get("fullName") ?? "").trim();
+  const phone = String(formData.get("phone") ?? "").trim();
   const line1 = String(formData.get("line1") ?? "").trim();
   const city = String(formData.get("city") ?? "").trim();
   const postalCode = String(formData.get("postalCode") ?? "").trim();
+  const callbackUrl = String(formData.get("callbackUrl") ?? "").trim();
 
-  if (!fullName || !line1 || !city || !postalCode) {
+  if (!fullName || !phone || !line1 || !city || !postalCode) {
     return { error: "Merci de remplir tous les champs obligatoires." };
   }
 
   await db.insert(addresses).values({
     userId: session.user.id,
     fullName,
+    phone,
     line1,
     city,
     postalCode,
@@ -37,5 +41,10 @@ export async function addAddress(
   });
 
   revalidatePath("/compte/adresses");
+
+  if (callbackUrl.startsWith("/")) {
+    redirect(callbackUrl);
+  }
+
   return { error: null };
 }

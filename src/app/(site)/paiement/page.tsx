@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 import { CheckoutForm } from "@/components/commerce/checkout-form";
+import { getAddressesForCurrentUser } from "@/lib/addresses";
 import {
   getCart,
   getSelectedPromoCode,
@@ -13,13 +15,19 @@ import { formatPrice } from "@/lib/format";
 export const metadata: Metadata = { title: "Paiement" };
 
 export default async function PaiementPage() {
-  const [items, promoCode, shippingMethod] = await Promise.all([
+  const session = await auth();
+
+  const [items, promoCode, shippingMethod, addresses] = await Promise.all([
     getCart(),
     getSelectedPromoCode(),
     getSelectedShippingMethod(),
+    getAddressesForCurrentUser(),
   ]);
 
   if (items.length === 0) redirect("/panier");
+
+  const hasCompleteAddress = addresses.some((a) => a.phone);
+  if (!hasCompleteAddress) redirect("/compte/adresses?callbackUrl=/paiement");
 
   const subtotal = items.reduce((sum, l) => sum + l.unitPrice * l.quantity, 0);
   const promo = promoCode ? await validatePromoCode(promoCode) : null;
@@ -32,7 +40,7 @@ export default async function PaiementPage() {
       <h1 className="font-heading text-3xl">Paiement</h1>
 
       <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_320px]">
-        <CheckoutForm total={total} />
+        <CheckoutForm total={total} userEmail={session?.user?.email ?? ""} />
 
         <div className="space-y-3 rounded-xl border border-border p-6 text-sm">
           {items.map((item) => (
