@@ -13,6 +13,13 @@ export const service = defineType({
       type: "string",
       options: { list: ["femme", "homme", "enfant", "mariage"] },
     }),
+    defineField({
+      name: "subCategory",
+      title: "Sous-catégorie",
+      type: "string",
+      options: { list: [{ title: "Forfaits", value: "forfaits" }, { title: "À la carte", value: "a-la-carte" }] },
+      hidden: ({ document }) => document?.category !== "femme",
+    }),
     defineField({ name: "description", title: "Description", type: "text", rows: 4 }),
     defineField({ name: "benefits", title: "Bénéfices", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "duration", title: "Durée", type: "string" }),
