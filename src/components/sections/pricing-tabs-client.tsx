@@ -71,47 +71,61 @@ export function PricingTabsClient({ services }: { services: MockService[] }) {
               <div className="rounded-2xl border border-[#e6d5a3] bg-white p-6 shadow-sm sm:p-8">
                 {cat.key === "femme" ? (
                   <div className="space-y-6">
-                    {[
-                      { key: "forfaits", label: "Forfaits" },
-                      { key: "a-la-carte", label: "À la carte" },
-                    ].map(({ key, label }) => {
-                      const groupItems = items.filter((s) => s.subCategory === key);
-                      if (groupItems.length === 0) return null;
+                    {(() => {
+                      const forfaits = items.filter((s) => s.subCategory === "forfaits");
+                      const aLaCarte = items.filter((s) => s.subCategory === "a-la-carte");
                       return (
-                        <div key={key}>
-                          <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-[#c39c51]">{label}</h3>
-                          <div className="grid grid-cols-[1.5fr_1fr_1fr] gap-x-3 gap-y-3 text-sm">
-                            <div />
-                            <div className="border-b border-[#e6d5a3] pb-2 text-center text-xs font-semibold uppercase tracking-wide text-stone-500">
-                              Cheveux courts
-                            </div>
-                            <div className="border-b border-[#e6d5a3] pb-2 text-center text-xs font-semibold uppercase tracking-wide text-stone-500">
-                              Cheveux longs
-                            </div>
-                            {groupItems.map((service) => {
-                              const [courts, longs, ...rest] = service.price.split(" / ").map((p) => p.trim());
-                              const hasTwoPrices = longs !== undefined && rest.length === 0;
-                              return (
-                                <div key={service.slug} className="contents">
-                                  <div className="self-center">{service.name}</div>
-                                  {hasTwoPrices ? (
-                                    <>
-                                      <div className="text-center font-medium">{courts}</div>
-                                      <div className="text-center font-medium">{longs}</div>
-                                    </>
-                                  ) : (
-                                    <div className="col-span-2 text-center font-medium">{service.price}</div>
-                                  )}
-                                  {service.slug === "lissage-bresilien" && (
-                                    <div className="col-span-3 -mt-2 text-xs text-stone-400">*racine 2cm</div>
-                                  )}
+                        <>
+                          {forfaits.length > 0 && (
+                            <div>
+                              <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-[#c39c51]">Forfaits</h3>
+                              <div className="grid grid-cols-[1.5fr_1fr_1fr] gap-x-3 gap-y-3 text-sm">
+                                <div />
+                                <div className="border-b border-[#e6d5a3] pb-2 text-center text-xs font-semibold uppercase tracking-wide text-stone-500">
+                                  Cheveux courts
                                 </div>
-                              );
-                            })}
-                          </div>
-                        </div>
+                                <div className="border-b border-[#e6d5a3] pb-2 text-center text-xs font-semibold uppercase tracking-wide text-stone-500">
+                                  Cheveux longs
+                                </div>
+                                {forfaits.map((service) => {
+                                  const [courts, longs, ...rest] = service.price.split(" / ").map((p) => p.trim());
+                                  const hasTwoPrices = longs !== undefined && rest.length === 0;
+                                  return (
+                                    <div key={service.slug} className="contents">
+                                      <div className="self-center">{service.name}</div>
+                                      {hasTwoPrices ? (
+                                        <>
+                                          <div className="text-center font-medium">{courts}</div>
+                                          <div className="text-center font-medium">{longs}</div>
+                                        </>
+                                      ) : (
+                                        <div className="col-span-2 text-center font-medium">{service.price}</div>
+                                      )}
+                                      {service.slug === "lissage-bresilien" && (
+                                        <div className="col-span-3 -mt-2 text-xs text-stone-400">*racine 2cm</div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                          {aLaCarte.length > 0 && (
+                            <div>
+                              <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-[#c39c51]">À la carte</h3>
+                              <div className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-3 text-sm">
+                                {aLaCarte.map((service) => (
+                                  <div key={service.slug} className="contents">
+                                    <div>{service.name}</div>
+                                    <div className="text-right font-medium">{service.price}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </>
                       );
-                    })}
+                    })()}
                   </div>
                 ) : (
                   <div className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-3 text-sm">
