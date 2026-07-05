@@ -54,8 +54,10 @@ export function MarriageSection() {
                 <p key={p}>{p}</p>
               ))}
             </div>
-            <p className="mt-4 font-semibold text-stone-900">{slide.price}</p>
-            <p className="mt-2 text-sm text-stone-600">{slide.extra}</p>
+            <div className="mt-4 rounded-lg border border-[#e6d5a3] bg-[#faf6ea] p-4">
+              <p className="font-semibold text-stone-900">{slide.price}</p>
+              <p className="mt-2 text-sm text-stone-600">{slide.extra}</p>
+            </div>
             <BoutonRdv className="mt-6" />
           </div>
         </div>
