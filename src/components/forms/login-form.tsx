@@ -26,9 +26,6 @@ export function LoginForm({ callbackUrl }: { callbackUrl: string }) {
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Connexion…" : "Se connecter"}
       </Button>
-      <p className="text-xs text-muted-foreground">
-        Compte de démonstration : admin@laurie-coiffure.fr / admin1234
-      </p>
     </form>
   );
 }
