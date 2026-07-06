@@ -72,8 +72,6 @@ export function AddToCartForm({
           {isPending ? "Ajout…" : "Ajouter au panier"}
         </Button>
       </div>
-
-      <p className="text-xs text-muted-foreground">En stock — expédié sous 24 à 48h</p>
     </div>
   );
 }

@@ -50,6 +50,10 @@ export function ProductForm({ brands }: { brands: { id: string; name: string }[]
         <Input id="shortDescription" name="shortDescription" className="mt-1.5" />
       </div>
       <div className="sm:col-span-2">
+        <Label htmlFor="objectives">Objectifs (séparés par des virgules)</Label>
+        <Input id="objectives" name="objectives" placeholder="Nutrition, Éclat couleur, Lissage" className="mt-1.5" />
+      </div>
+      <div className="sm:col-span-2">
         <Label htmlFor="description">Description</Label>
         <Textarea id="description" name="description" rows={4} required className="mt-1.5" />
       </div>

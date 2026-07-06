@@ -79,6 +79,7 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
             seoDescription={product.seoDescription}
             brandId={product.brandId}
             brands={brands}
+            objectives={product.objectives}
           />
         </div>
       </div>

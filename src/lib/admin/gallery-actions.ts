@@ -114,6 +114,40 @@ export async function updateGalleryItem(formData: FormData) {
   revalidatePath("/");
 }
 
+export async function replaceGalleryItemImage(
+  id: string,
+  oldImageUrl: string,
+  _prevState: GalleryItemFormState,
+  formData: FormData
+): Promise<GalleryItemFormState> {
+  const session = await requirePermission("media");
+  if (!isDatabaseConfigured) return { error: "Neon non configuré." };
+  if (!env.BLOB_READ_WRITE_TOKEN) {
+    return { error: "Vercel Blob non configuré (BLOB_READ_WRITE_TOKEN manquant)." };
+  }
+
+  const file = formData.get("file") as File | null;
+  if (!file || file.size === 0) return { error: "Recadrage manquant." };
+
+  try {
+    const blob = await compressAndUpload(file, "recadre");
+    await db.update(galleryItems).set({ imageUrl: blob.url }).where(eq(galleryItems.id, id));
+
+    if (oldImageUrl.includes("blob.vercel-storage.com")) {
+      await del(oldImageUrl).catch(() => {});
+    }
+
+    await logActivity(session, "gallery.recrop", id);
+  } catch (e) {
+    console.error("replaceGalleryItemImage failed:", e);
+    return { error: "Une erreur est survenue lors du recadrage." };
+  }
+
+  revalidatePath("/admin/realisations");
+  revalidatePath("/");
+  return { error: null };
+}
+
 export async function deleteGalleryItem(id: string, imageUrl: string, imageAfterUrl: string | null) {
   const session = await requirePermission("media");
   if (!isDatabaseConfigured) return;

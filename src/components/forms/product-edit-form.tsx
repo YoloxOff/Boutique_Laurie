@@ -20,6 +20,7 @@ export function ProductEditForm({
   seoDescription,
   brandId,
   brands,
+  objectives,
 }: {
   id: string;
   name: string;
@@ -31,6 +32,7 @@ export function ProductEditForm({
   seoDescription: string | null;
   brandId: string | null;
   brands: { id: string; name: string }[];
+  objectives: string[];
 }) {
   const [state, formAction, isPending] = useActionState(updateProductDetails, initial);
 
@@ -67,6 +69,16 @@ export function ProductEditForm({
           id="edit-shortDescription"
           name="shortDescription"
           defaultValue={shortDescription ?? ""}
+          className="mt-1.5"
+        />
+      </div>
+      <div className="sm:col-span-2">
+        <Label htmlFor="edit-objectives">Objectifs (séparés par des virgules)</Label>
+        <Input
+          id="edit-objectives"
+          name="objectives"
+          defaultValue={objectives.join(", ")}
+          placeholder="Nutrition, Éclat couleur, Lissage"
           className="mt-1.5"
         />
       </div>

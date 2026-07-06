@@ -19,6 +19,13 @@ function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+function parseObjectives(value: string) {
+  return value
+    .split(",")
+    .map((o) => o.trim())
+    .filter(Boolean);
+}
+
 export async function createProduct(
   _prevState: ProductFormState,
   formData: FormData
@@ -35,6 +42,7 @@ export async function createProduct(
   const shortDescription = String(formData.get("shortDescription") ?? "").trim();
   const description = String(formData.get("description") ?? "");
   const brandId = String(formData.get("brandId") ?? "").trim();
+  const objectives = parseObjectives(String(formData.get("objectives") ?? ""));
 
   if (!name || !sku) {
     return { error: "Le nom et la référence (SKU) sont obligatoires." };
@@ -50,6 +58,7 @@ export async function createProduct(
       shortDescription: shortDescription || null,
       description,
       brandId: brandId || null,
+      objectives,
     })
     .returning();
 
@@ -80,6 +89,7 @@ export async function updateProductDetails(
   const seoDescription = String(formData.get("seoDescription") ?? "").trim();
   const customSlug = String(formData.get("slug") ?? "").trim();
   const brandId = String(formData.get("brandId") ?? "").trim();
+  const objectives = parseObjectives(String(formData.get("objectives") ?? ""));
 
   if (!name) return { error: "Le nom est obligatoire." };
 
@@ -93,6 +103,7 @@ export async function updateProductDetails(
       seoTitle: seoTitle || null,
       seoDescription: seoDescription || null,
       brandId: brandId || null,
+      objectives,
       ...(customSlug ? { slug: slugify(customSlug) } : {}),
     })
     .where(eq(products.id, id));
