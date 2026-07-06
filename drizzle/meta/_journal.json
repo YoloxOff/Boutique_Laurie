@@ -57,6 +57,13 @@
       "when": 1783353626934,
       "tag": "0007_colossal_whizzer",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1783356972040,
+      "tag": "0008_sweet_drax",
+      "breakpoints": true
     }
   ]
 }

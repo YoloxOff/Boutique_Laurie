@@ -9,6 +9,7 @@ import { can, isAdminRole, type PermissionKey } from "@/lib/admin/permissions";
 const NAV: { href: string; label: string; permission?: PermissionKey }[] = [
   { href: "/admin", label: "Tableau de bord" },
   { href: "/admin/produits", label: "Produits", permission: "products" },
+  { href: "/admin/marques", label: "Marques", permission: "products" },
   { href: "/admin/commandes", label: "Commandes", permission: "orders" },
   { href: "/admin/clients", label: "Clients", permission: "customers" },
   { href: "/admin/codes-promo", label: "Codes promo", permission: "promotions" },

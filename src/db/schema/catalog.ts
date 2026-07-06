@@ -43,7 +43,7 @@ export const products = pgTable("products", {
   sku: text("sku").notNull().unique(),
   slug: text("slug").notNull().unique(),
   name: text("name").notNull(),
-  brandId: text("brand_id").references(() => brands.id),
+  brandId: text("brand_id").references(() => brands.id, { onDelete: "set null" }),
   categoryId: text("category_id").references(() => categories.id),
   shortDescription: text("short_description"),
   description: text("description").notNull(),
