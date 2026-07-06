@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { createAdminUser, initialAdminUserFormState } from "@/lib/admin/users-actions";
+import { createAdminUser, type AdminUserFormState } from "@/lib/admin/users-actions";
 import { PERMISSIONS } from "@/lib/admin/permission-keys";
 
+const initialState: AdminUserFormState = { error: null };
+
 export function AdminUserCreateForm() {
-  const [state, formAction, isPending] = useActionState(createAdminUser, initialAdminUserFormState);
+  const [state, formAction, isPending] = useActionState(createAdminUser, initialState);
   const [role, setRole] = useState("employee");
 
   return (

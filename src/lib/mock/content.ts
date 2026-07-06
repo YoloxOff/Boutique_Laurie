@@ -117,18 +117,6 @@ export const mockServices: MockService[] = [
     faq: [],
   },
   {
-    slug: "coupe-femme",
-    name: "Coupe femme",
-    category: "femme",
-    subCategory: "a-la-carte",
-    description: "Coupe femme seule, à la carte.",
-    benefits: [],
-    duration: "Sur rendez-vous",
-    price: "20 €",
-    image: femmeImage,
-    faq: [],
-  },
-  {
     slug: "couleur-racine",
     name: "Couleur (racine)",
     category: "femme",

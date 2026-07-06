@@ -16,6 +16,7 @@ const NAV: { href: string; label: string; permission?: PermissionKey }[] = [
   { href: "/admin/newsletter", label: "Newsletter", permission: "newsletter" },
   { href: "/admin/messages", label: "Messages", permission: "messages" },
   { href: "/admin/medias", label: "Médiathèque", permission: "media" },
+  { href: "/studio/structure/galleryItem", label: "Réalisations", permission: "media" },
   { href: "/admin/parametres", label: "Paramètres", permission: "settings" },
 ];
 

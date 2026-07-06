@@ -114,7 +114,7 @@ export async function Footer() {
       <div className="border-t border-[#e6d5a3] py-4">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
           <p className="text-center text-xs text-stone-600">
-            © {new Date().getFullYear()} {env.NEXT_PUBLIC_SITE_NAME}. Tous droits réservés.
+            © {env.NEXT_PUBLIC_SITE_NAME}. Tous droits réservés.
           </p>
         </div>
       </div>

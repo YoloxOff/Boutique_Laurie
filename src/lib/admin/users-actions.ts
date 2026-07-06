@@ -10,9 +10,6 @@ import { logActivity } from "@/lib/admin/activity-log";
 
 export type AdminUserFormState = { error: string | null };
 
-const initial: AdminUserFormState = { error: null };
-export { initial as initialAdminUserFormState };
-
 export async function createAdminUser(
   _prevState: AdminUserFormState,
   formData: FormData
@@ -33,12 +30,17 @@ export async function createAdminUser(
     return { error: "Rôle invalide." };
   }
 
-  const existing = await db.query.users.findFirst({ where: eq(users.email, email) });
-  if (existing) return { error: "Un compte existe déjà avec cet email." };
+  try {
+    const existing = await db.query.users.findFirst({ where: eq(users.email, email) });
+    if (existing) return { error: "Un compte existe déjà avec cet email." };
 
-  const passwordHash = await bcrypt.hash(password, 10);
-  await db.insert(users).values({ name, email, passwordHash, role, permissions });
-  await logActivity(session, "admin.create", email);
+    const passwordHash = await bcrypt.hash(password, 10);
+    await db.insert(users).values({ name, email, passwordHash, role, permissions });
+    await logActivity(session, "admin.create", email);
+  } catch (e) {
+    console.error("createAdminUser failed:", e);
+    return { error: "Une erreur est survenue lors de la création du compte." };
+  }
 
   revalidatePath("/admin/utilisateurs");
   return { error: null };
