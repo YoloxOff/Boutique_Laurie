@@ -1,9 +1,20 @@
-import { sanityFetch } from "@/lib/sanity/client";
+import { db, isDatabaseConfigured } from "@/db";
 import { mockGallery, type MockGalleryItem } from "@/lib/mock/content";
 
-const GALLERY_QUERY = `*[_type == "galleryItem"]{ "id": _id, title, type, category, "image": image.asset->url, "imageAfter": imageAfter.asset->url, videoUrl }`;
-
 export async function getGallery(): Promise<MockGalleryItem[]> {
-  const remote = await sanityFetch<MockGalleryItem[]>(GALLERY_QUERY);
-  return remote && remote.length ? remote : mockGallery;
+  if (!isDatabaseConfigured) return mockGallery;
+
+  const rows = await db.query.galleryItems.findMany({
+    orderBy: (g, { asc }) => [asc(g.position)],
+  });
+  if (!rows.length) return mockGallery;
+
+  return rows.map((row) => ({
+    id: row.id,
+    type: row.type,
+    category: row.category,
+    image: row.imageUrl,
+    imageAfter: row.imageAfterUrl ?? undefined,
+    title: row.title,
+  }));
 }
