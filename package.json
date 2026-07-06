@@ -40,6 +40,7 @@
     "nuqs": "^2.9.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-easy-crop": "^6.1.0",
     "react-hook-form": "^7.80.0",
     "resend": "^6.16.0",
     "sanity": "^6.3.0",

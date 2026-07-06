@@ -12,12 +12,10 @@ export function AddToCartForm({
   productSlug,
   variants,
   basePrice,
-  stockStatus,
 }: {
   productSlug: string;
   variants: MockVariant[];
   basePrice: number;
-  stockStatus: boolean;
 }) {
   const [variantId, setVariantId] = useState<string | null>(variants[0]?.id ?? null);
   const [quantity, setQuantity] = useState(1);
@@ -25,7 +23,6 @@ export function AddToCartForm({
 
   const selectedVariant = variants.find((v) => v.id === variantId);
   const price = selectedVariant?.priceOverride ?? basePrice;
-  const outOfStock = variants.length > 0 ? (selectedVariant?.stockQuantity ?? 0) <= 0 : !stockStatus;
 
   function handleAdd() {
     startTransition(async () => {
@@ -49,8 +46,8 @@ export function AddToCartForm({
           </SelectTrigger>
           <SelectContent>
             {variants.map((v) => (
-              <SelectItem key={v.id} value={v.id} disabled={v.stockQuantity <= 0}>
-                {v.label} {v.stockQuantity <= 0 ? "(épuisé)" : ""}
+              <SelectItem key={v.id} value={v.id}>
+                {v.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -71,14 +68,12 @@ export function AddToCartForm({
           </SelectContent>
         </Select>
 
-        <Button className="flex-1" disabled={isPending || outOfStock} onClick={handleAdd}>
-          {outOfStock ? "Épuisé" : isPending ? "Ajout…" : "Ajouter au panier"}
+        <Button className="flex-1" disabled={isPending} onClick={handleAdd}>
+          {isPending ? "Ajout…" : "Ajouter au panier"}
         </Button>
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        {outOfStock ? "Actuellement indisponible" : "En stock — expédié sous 24 à 48h"}
-      </p>
+      <p className="text-xs text-muted-foreground">En stock — expédié sous 24 à 48h</p>
     </div>
   );
 }

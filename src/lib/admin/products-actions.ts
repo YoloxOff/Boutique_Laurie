@@ -32,7 +32,9 @@ export async function createProduct(
   const name = String(formData.get("name") ?? "").trim();
   const sku = String(formData.get("sku") ?? "").trim();
   const basePrice = String(formData.get("basePrice") ?? "0");
+  const shortDescription = String(formData.get("shortDescription") ?? "").trim();
   const description = String(formData.get("description") ?? "");
+  const brandId = String(formData.get("brandId") ?? "").trim();
 
   if (!name || !sku) {
     return { error: "Le nom et la référence (SKU) sont obligatoires." };
@@ -40,7 +42,15 @@ export async function createProduct(
 
   const [product] = await db
     .insert(products)
-    .values({ name, sku, slug: slugify(name), basePrice, description })
+    .values({
+      name,
+      sku,
+      slug: slugify(name),
+      basePrice,
+      shortDescription: shortDescription || null,
+      description,
+      brandId: brandId || null,
+    })
     .returning();
 
   await db.insert(productVariants).values({
@@ -63,11 +73,13 @@ export async function updateProductDetails(
 
   const id = String(formData.get("id"));
   const name = String(formData.get("name") ?? "").trim();
+  const shortDescription = String(formData.get("shortDescription") ?? "").trim();
   const description = String(formData.get("description") ?? "");
   const basePrice = String(formData.get("basePrice") ?? "0");
   const seoTitle = String(formData.get("seoTitle") ?? "").trim();
   const seoDescription = String(formData.get("seoDescription") ?? "").trim();
   const customSlug = String(formData.get("slug") ?? "").trim();
+  const brandId = String(formData.get("brandId") ?? "").trim();
 
   if (!name) return { error: "Le nom est obligatoire." };
 
@@ -75,10 +87,12 @@ export async function updateProductDetails(
     .update(products)
     .set({
       name,
+      shortDescription: shortDescription || null,
       description,
       basePrice,
       seoTitle: seoTitle || null,
       seoDescription: seoDescription || null,
+      brandId: brandId || null,
       ...(customSlug ? { slug: slugify(customSlug) } : {}),
     })
     .where(eq(products.id, id));

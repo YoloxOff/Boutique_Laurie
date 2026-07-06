@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ImageCropInput } from "@/components/forms/image-crop-input";
 import { addGalleryItem, type GalleryItemFormState } from "@/lib/admin/gallery-actions";
 
 const initial: GalleryItemFormState = { error: null };
@@ -50,16 +51,8 @@ export function GalleryItemCreateForm() {
           <Input id="gallery-video-url" name="videoUrl" type="url" className="mt-1.5" />
         </div>
       )}
-      <div>
-        <Label htmlFor="gallery-file">{type === "avant-apres" ? "Photo (avant)" : "Photo"}</Label>
-        <input id="gallery-file" type="file" name="file" accept="image/*" required className="mt-1.5 block text-sm" />
-      </div>
-      {type === "avant-apres" && (
-        <div>
-          <Label htmlFor="gallery-file-after">Photo (après)</Label>
-          <input id="gallery-file-after" type="file" name="fileAfter" accept="image/*" className="mt-1.5 block text-sm" />
-        </div>
-      )}
+      <ImageCropInput name="file" label={type === "avant-apres" ? "Photo (avant)" : "Photo"} required />
+      {type === "avant-apres" && <ImageCropInput name="fileAfter" label="Photo (après)" />}
 
       {state.error && <p className="sm:col-span-2 text-sm text-destructive">{state.error}</p>}
       <Button type="submit" disabled={isPending} className="sm:col-span-2">

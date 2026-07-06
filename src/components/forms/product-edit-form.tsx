@@ -12,19 +12,25 @@ const initial: ProductFormState = { error: null };
 export function ProductEditForm({
   id,
   name,
+  shortDescription,
   description,
   basePrice,
   slug,
   seoTitle,
   seoDescription,
+  brandId,
+  brands,
 }: {
   id: string;
   name: string;
+  shortDescription: string | null;
   description: string;
   basePrice: number;
   slug: string;
   seoTitle: string | null;
   seoDescription: string | null;
+  brandId: string | null;
+  brands: { id: string; name: string }[];
 }) {
   const [state, formAction, isPending] = useActionState(updateProductDetails, initial);
 
@@ -38,6 +44,31 @@ export function ProductEditForm({
       <div>
         <Label htmlFor="edit-basePrice">Prix (€)</Label>
         <Input id="edit-basePrice" name="basePrice" type="number" step="0.01" defaultValue={basePrice} className="mt-1.5" />
+      </div>
+      <div>
+        <Label htmlFor="edit-brandId">Marque</Label>
+        <select
+          id="edit-brandId"
+          name="brandId"
+          defaultValue={brandId ?? ""}
+          className="mt-1.5 flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm"
+        >
+          <option value="">Aucune</option>
+          {brands.map((b) => (
+            <option key={b.id} value={b.id}>
+              {b.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="sm:col-span-2">
+        <Label htmlFor="edit-shortDescription">Sous-titre</Label>
+        <Input
+          id="edit-shortDescription"
+          name="shortDescription"
+          defaultValue={shortDescription ?? ""}
+          className="mt-1.5"
+        />
       </div>
       <div className="sm:col-span-2">
         <Label htmlFor="edit-description">Description</Label>

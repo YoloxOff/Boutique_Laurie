@@ -48,6 +48,7 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
     with: { variants: true, images: { orderBy: (i, { asc }) => [asc(i.position)] } },
   });
   if (!product) notFound();
+  const brands = await db.query.brands.findMany();
 
   return (
     <div>
@@ -70,11 +71,14 @@ export default async function AdminProduitDetailPage({ params }: { params: Promi
           <ProductEditForm
             id={product.id}
             name={product.name}
+            shortDescription={product.shortDescription}
             description={product.description}
             basePrice={Number(product.basePrice)}
             slug={product.slug}
             seoTitle={product.seoTitle}
             seoDescription={product.seoDescription}
+            brandId={product.brandId}
+            brands={brands}
           />
         </div>
       </div>

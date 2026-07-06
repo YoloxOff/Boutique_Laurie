@@ -9,7 +9,7 @@ import { createProduct, type ProductFormState } from "@/lib/admin/products-actio
 
 const initialState: ProductFormState = { error: null };
 
-export function ProductForm() {
+export function ProductForm({ brands }: { brands: { id: string; name: string }[] }) {
   const [state, formAction, isPending] = useActionState(createProduct, initialState);
 
   return (
@@ -29,6 +29,25 @@ export function ProductForm() {
       <div>
         <Label htmlFor="stockQuantity">Stock initial</Label>
         <Input id="stockQuantity" name="stockQuantity" type="number" defaultValue={0} className="mt-1.5" />
+      </div>
+      <div>
+        <Label htmlFor="brandId">Marque</Label>
+        <select
+          id="brandId"
+          name="brandId"
+          className="mt-1.5 flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm"
+        >
+          <option value="">Aucune</option>
+          {brands.map((b) => (
+            <option key={b.id} value={b.id}>
+              {b.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="sm:col-span-2">
+        <Label htmlFor="shortDescription">Sous-titre</Label>
+        <Input id="shortDescription" name="shortDescription" className="mt-1.5" />
       </div>
       <div className="sm:col-span-2">
         <Label htmlFor="description">Description</Label>
