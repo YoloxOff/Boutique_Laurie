@@ -214,11 +214,9 @@ export async function reorderProducts(orderedIds: string[]) {
   if (!isDatabaseConfigured) return;
   if (orderedIds.length === 0) return;
 
-  await db.transaction(async (tx) => {
-    await Promise.all(
-      orderedIds.map((id, index) => tx.update(products).set({ position: index }).where(eq(products.id, id)))
-    );
-  });
+  await Promise.all(
+    orderedIds.map((id, index) => db.update(products).set({ position: index }).where(eq(products.id, id)))
+  );
 
   await logActivity(session, "product.reorder", `${orderedIds.length} produit(s)`);
   revalidatePath("/admin/produits");
