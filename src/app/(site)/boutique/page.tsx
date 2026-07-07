@@ -24,6 +24,13 @@ export default async function BoutiquePage({
   ]);
 
   const objectives = Array.from(new Set(products.flatMap((p) => p.objectives)));
+  const brandNameBySlug = new Map(brands.map((b) => [b.slug, b.name]));
+  const sortByBrandThenName = (a: (typeof products)[number], b: (typeof products)[number]) => {
+    const brandCompare = (brandNameBySlug.get(a.brandSlug) ?? "").localeCompare(
+      brandNameBySlug.get(b.brandSlug) ?? ""
+    );
+    return brandCompare !== 0 ? brandCompare : a.name.localeCompare(b.name);
+  };
 
   let filtered = products.filter((p) => {
     if (recherche && !p.name.toLowerCase().includes(recherche.toLowerCase())) return false;
@@ -33,8 +40,9 @@ export default async function BoutiquePage({
   });
 
   if (tri === "prix-asc") filtered = [...filtered].sort((a, b) => a.basePrice - b.basePrice);
-  if (tri === "prix-desc") filtered = [...filtered].sort((a, b) => b.basePrice - a.basePrice);
-  if (tri === "nom") filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+  else if (tri === "prix-desc") filtered = [...filtered].sort((a, b) => b.basePrice - a.basePrice);
+  else if (tri === "nom") filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+  else filtered = [...filtered].sort(sortByBrandThenName);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
