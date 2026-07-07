@@ -245,14 +245,6 @@ export function getMockProductBySlug(slug: string) {
   return mockProducts.find((p) => p.slug === slug) ?? null;
 }
 
-export function getMockProductsByCategory(categorySlug: string) {
-  return mockProducts.filter((p) => p.categorySlug === categorySlug);
-}
-
 export function getMockBrandBySlug(slug: string) {
   return mockBrands.find((b) => b.slug === slug) ?? null;
-}
-
-export function getMockCategoryBySlug(slug: string) {
-  return mockCategories.find((c) => c.slug === slug) ?? null;
 }

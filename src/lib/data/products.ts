@@ -3,7 +3,6 @@ import { db, isDatabaseConfigured } from "@/db";
 import { productImages, productReviews, products, productVariants } from "@/db/schema";
 import {
   getMockProductBySlug,
-  getMockProductsByCategory,
   mockProducts,
   type MockProduct,
 } from "@/lib/mock/catalog";
@@ -61,14 +60,6 @@ export async function getAllProducts(): Promise<ProductSummary[]> {
   } catch {
     return mockProducts.map(toSummary);
   }
-}
-
-export async function getProductsByCategory(categorySlug: string): Promise<ProductSummary[]> {
-  if (!isDatabaseConfigured) {
-    return getMockProductsByCategory(categorySlug).map(toSummary);
-  }
-  const all = await getAllProducts();
-  return all.filter((p) => p.categorySlug === categorySlug);
 }
 
 export async function getProductBySlug(slug: string): Promise<MockProduct | null> {

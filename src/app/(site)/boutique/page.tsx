@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { ProductCard } from "@/components/commerce/product-card";
 import { ProductFilters } from "@/components/commerce/product-filters";
 import { getAllProducts } from "@/lib/data/products";
-import { getAllBrands, getAllCategories } from "@/lib/data/catalog-meta";
+import { getAllBrands } from "@/lib/data/catalog-meta";
 import { loadBoutiqueSearchParams } from "@/lib/search-params";
 import type { SearchParams } from "nuqs/server";
 
@@ -19,10 +18,9 @@ export default async function BoutiquePage({
   searchParams: Promise<SearchParams>;
 }) {
   const { recherche, marque, objectif, tri } = await loadBoutiqueSearchParams(searchParams);
-  const [products, brands, categories] = await Promise.all([
+  const [products, brands] = await Promise.all([
     getAllProducts(),
     getAllBrands(),
-    getAllCategories(),
   ]);
 
   const objectives = Array.from(new Set(products.flatMap((p) => p.objectives)));
@@ -41,18 +39,6 @@ export default async function BoutiquePage({
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <SectionHeading eyebrow="Produits professionnels" title="La boutique" />
-
-      <div className="mt-10 flex flex-wrap gap-2">
-        {categories.map((cat) => (
-          <Link
-            key={cat.slug}
-            href={`/boutique/${cat.slug}`}
-            className="rounded-full border border-border px-4 py-1.5 text-sm hover:border-accent"
-          >
-            {cat.name}
-          </Link>
-        ))}
-      </div>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[240px_1fr]">
         <aside className="hidden lg:block">
