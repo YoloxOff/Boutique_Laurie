@@ -18,9 +18,9 @@ export type ProductSummary = Pick<
   | "compareAtPrice"
   | "hairTypes"
   | "objectives"
-> & { image: { url: string; alt: string } };
+> & { image: { url: string; alt: string }; position: number };
 
-function toSummary(p: MockProduct): ProductSummary {
+function toSummary(p: MockProduct, index: number): ProductSummary {
   return {
     slug: p.slug,
     name: p.name,
@@ -32,6 +32,7 @@ function toSummary(p: MockProduct): ProductSummary {
     hairTypes: p.hairTypes,
     objectives: p.objectives,
     image: p.images[0],
+    position: index,
   };
 }
 
@@ -42,6 +43,7 @@ export async function getAllProducts(): Promise<ProductSummary[]> {
   try {
     const rows = await db.query.products.findMany({
       with: { images: true, brand: true, category: true },
+      orderBy: (p, { asc }) => [asc(p.position)],
     });
     return rows.map((r) => ({
       slug: r.slug,
@@ -56,6 +58,7 @@ export async function getAllProducts(): Promise<ProductSummary[]> {
       image: r.images[0]
         ? { url: r.images[0].url, alt: r.images[0].alt }
         : { url: "", alt: r.name },
+      position: r.position,
     }));
   } catch {
     return mockProducts.map(toSummary);

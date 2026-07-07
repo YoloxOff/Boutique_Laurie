@@ -1,6 +1,6 @@
 "use server";
 
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requirePermission } from "@/lib/admin/permissions";
@@ -48,6 +48,10 @@ export async function createProduct(
     return { error: "Le nom et la référence (SKU) sont obligatoires." };
   }
 
+  const [row] = await db
+    .select({ maxPosition: sql<number>`coalesce(max(${products.position}), -1)` })
+    .from(products);
+
   const [product] = await db
     .insert(products)
     .values({
@@ -59,6 +63,7 @@ export async function createProduct(
       description,
       brandId: brandId || null,
       objectives,
+      position: (row?.maxPosition ?? -1) + 1,
     })
     .returning();
 
@@ -202,4 +207,20 @@ export async function bulkDeleteProducts(formData: FormData) {
   await db.delete(products).where(inArray(products.id, ids));
   await logActivity(session, "product.bulk_delete", `${ids.length} produit(s)`);
   revalidatePath("/admin/produits");
+}
+
+export async function reorderProducts(orderedIds: string[]) {
+  const session = await requirePermission("products");
+  if (!isDatabaseConfigured) return;
+  if (orderedIds.length === 0) return;
+
+  await db.transaction(async (tx) => {
+    await Promise.all(
+      orderedIds.map((id, index) => tx.update(products).set({ position: index }).where(eq(products.id, id)))
+    );
+  });
+
+  await logActivity(session, "product.reorder", `${orderedIds.length} produit(s)`);
+  revalidatePath("/admin/produits");
+  revalidatePath("/boutique");
 }

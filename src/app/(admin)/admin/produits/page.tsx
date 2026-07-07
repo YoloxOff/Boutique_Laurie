@@ -75,6 +75,9 @@ export default async function AdminProduitsPage({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="font-heading text-2xl">Produits ({allMatching.length})</h1>
         <div className="flex flex-wrap gap-2">
+          <Button variant="secondary" render={<Link href="/admin/produits/ordre" />}>
+            Ordre d&apos;affichage
+          </Button>
           <Button variant="secondary" render={<Link href="/api/admin/produits/export" />}>
             Exporter en CSV
           </Button>

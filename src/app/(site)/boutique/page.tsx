@@ -31,6 +31,10 @@ export default async function BoutiquePage({
     );
     return brandCompare !== 0 ? brandCompare : a.name.localeCompare(b.name);
   };
+  const sortByDisplayOrder = (a: (typeof products)[number], b: (typeof products)[number]) => {
+    const positionCompare = a.position - b.position;
+    return positionCompare !== 0 ? positionCompare : sortByBrandThenName(a, b);
+  };
 
   let filtered = products.filter((p) => {
     if (recherche && !p.name.toLowerCase().includes(recherche.toLowerCase())) return false;
@@ -42,7 +46,7 @@ export default async function BoutiquePage({
   if (tri === "prix-asc") filtered = [...filtered].sort((a, b) => a.basePrice - b.basePrice);
   else if (tri === "prix-desc") filtered = [...filtered].sort((a, b) => b.basePrice - a.basePrice);
   else if (tri === "nom") filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
-  else filtered = [...filtered].sort(sortByBrandThenName);
+  else filtered = [...filtered].sort(sortByDisplayOrder);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

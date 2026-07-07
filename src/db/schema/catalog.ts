@@ -54,6 +54,7 @@ export const products = pgTable("products", {
   basePrice: numeric("base_price", { precision: 10, scale: 2 }).notNull(),
   compareAtPrice: numeric("compare_at_price", { precision: 10, scale: 2 }),
   status: text("status").notNull().default("active"),
+  position: integer("position").notNull().default(0),
   seoTitle: text("seo_title"),
   seoDescription: text("seo_description"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
